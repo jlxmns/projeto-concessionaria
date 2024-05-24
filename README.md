@@ -37,7 +37,7 @@ O GitHub deve ser usado como a ferramenta de CI/CD. O GitHub é uma plataforma c
 ## Passo a Passo
 1. Instalar o [Python 3.11.0](https://www.python.org/downloads/release/python-3110/)
 2. Instalar o [PostgreSQL](https://www.postgresql.org/download/windows/) e solicitar instalação do pgAdmin4 durante o setup
-3. `https://github.com/jlxmns/projeto-concessionaria.git`
+3. Git clone `https://github.com/jlxmns/projeto-concessionaria.git`
 4. Setup do Banco de dados
 - 4.1 Criar um usuário e senha no pgAdmin4 (pode deixar o padrão de usuário postgres e senha postgres se quiser)
 - 4.2 Criar um banco de dados para ser utilizado no projeto
