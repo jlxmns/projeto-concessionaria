@@ -21,3 +21,17 @@
 - Ao clicar no pin da loja o usuário pode escolher agendar serviços sobre ela
 
 ## Requisitos Não Funcionais
+#### Usabilidade
+  - O sistema deve apresentar uma interface atrativa, que satisfaça o usuário.
+  - O sistema deve ser intuitivo, com funções de fácil aprendizado e memorização.
+    - Tempo de treinamento de usuário entre 15 a 30 minutos 
+#### Desempenho
+  - O carregamento e as trocas de telas do sistema devem ser rápidas. 
+    - Intervalos de resposta menores que 5 segundos.
+#### Segurança
+  - O sistema deverá ser seguro e preservar a privacidade e os dados pessoais do usuário.
+#### Compatibilidade
+  - O sistema deverá ser compatível com as versões mais recentes dos principais navegadores:
+	 - Chrome
+	 - Edge
+	 - Safari
