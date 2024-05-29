@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  td a {
+    @apply text-primary-600;
+  }
+
+  th a {
+    @apply text-primary-800 font-semibold;
+  }
+}
+
+.select2.select2-container {
+  @apply border max-w-2xl relative rounded-md shadow-sm !w-full dark:border-gray-700;
+}

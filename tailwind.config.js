@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./src/**/*.{html,py,js}"],
+  content: ["./**/*.{html,py,js}"],
   media: false,
   darkMode: "class",
   theme: {
@@ -28,6 +28,7 @@ module.exports = {
       },
       height: {
         9.5: "2.375rem",
+        1000: "1000px",
       },
       minWidth: {
         sidebar: "18rem",
