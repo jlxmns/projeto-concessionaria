@@ -1,7 +1,7 @@
 {% load static %}
 
-<header class="text-gray-800 flex px-2 sm:px-6 py-3 gap-20 bg-gray-50 sticky top-0 z-50" x-data="{ openedMenu: 'none' }">
-    <div class="mx-auto flex justify-between flex-row px-2 sm:px-6 py-3 gap-10 sm:gap-48 bg-gray-50 sticky top-0 z-50">
+<header class="text-gray-800 flex px-2 sm:px-6 py-3 gap-6 lg:gap-20 bg-gray-50 sticky top-0 z-50" x-data="{ openedMenu: 'none' }">
+    <div class="mx-auto flex justify-between flex-row px-2 sm:px-6 py-3 gap-6 lg:gap-48 bg-gray-50 sticky top-0 z-50">
         <a href="{% url 'site_concessionaria:home' %}" class="flex flex-row items-center gap-2">
             <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 59.38 54.43" width="40px" height="40px">
@@ -28,9 +28,9 @@
             </svg>
             <span class="font-bold text-2xl">Elite Motors</span>
         </a>
-        <div class="flex flex-row items-center gap-20 sm:gap-48"
+        <div class="flex flex-row items-center gap-6 lg:gap-48"
              @click.outside="openedMenu = 'none'">
-            <div class="flex flex-row gap-6 sm:gap-16 font-semibold">
+            <div class="flex flex-row gap-6 sm:gap-16 font-semibold" x-show="window.innerWidth > 767">
                 <div class="relative">
                     <a href="javascript:void(0)"
                        @click="openedMenu = 'veiculos'"
