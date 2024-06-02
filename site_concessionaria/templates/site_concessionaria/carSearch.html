@@ -1,0 +1,64 @@
+{% extends 'unfold/layouts/skeleton.html' %}
+
+{% load i18n admin_urls static admin_modify my_templatetags %}
+
+{% block extrahead %}{{ block.super }}
+    <script src="{% url 'admin:jsi18n' %}"></script>
+    {{ media }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block base %}
+    {% include 'site_concessionaria/componentes/header.html' %}
+    {% for img in imagens %}
+        {{ teste }}
+    {% endfor %}
+    <div class="text-emerald-300 border border-amber-950 max-w-fit mx-auto flex gap-6 flex-col justify-center"><span> asduahsduhasadisj</span>
+        <span> adoihasoiudhasiuhdaushdau</span>
+        <span> adohijasoiuhdiaushdiauh</span></div>
+
+    <body class="bg-gray-100 p-6">
+    <div class="container mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <!-- Bloco 1: Fotos do Veículo -->
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-4">Fotos do Veículo</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <img src="C:\Users\eduar\WebstormProjects\projeto-concessionaria\concessionaria\static\images\UNO-MILLE-FIRE-2002-01.jpg" alt="Foto do Veículo 1" class="w-full h-auto rounded">
+                <img src="C:\Users\eduar\WebstormProjects\projeto-concessionaria\concessionaria\static\images\UNO-MILLE-FIRE-2002-01.jpg" alt="Foto do Veículo 2" class="w-full h-auto rounded">
+                <img src="C:\Users\eduar\WebstormProjects\projeto-concessionaria\concessionaria\static\images\UNO-MILLE-FIRE-2002-01.jpg" alt="Foto do Veículo 3" class="w-full h-auto rounded">
+            </div>
+        </div>
+        <!-- Bloco 2: Detalhes do Veículo -->
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-4">Detalhes do Veículo</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <p><strong>Ano:</strong> 2021</p>
+                    <p><strong>Quilometragem:</strong> 20,000 km</p>
+                    <p><strong>Combustível:</strong> Gasolina</p>
+                    <p><strong>Final da Placa:</strong> 7</p>
+                </div>
+                <div>
+                    <p><strong>Único Dono:</strong> Sim</p>
+                    <p><strong>IPVA Pago:</strong> Sim</p>
+                    <p><strong>Transmissão:</strong> Automática</p>
+                    <p><strong>Cor:</strong> Preto</p>
+                </div>
+            </div>
+        </div>
+        <!-- Bloco 3: Valor do Veículo -->
+        <div>
+            <h2 class="text-xl font-semibold mb-4">Valor do Veículo</h2>
+            <div class="bg-gray-100 p-4 rounded mb-4">
+                <p class="text-2xl font-bold text-green-600">R$ 85,000.00</p>
+                <p><strong>Impostos:</strong> R$ 5,000.00</p>
+                <p><strong>Adicionais de Transporte:</strong> R$ 2,000.00</p>
+
+            </div>
+            <button class="w-full bg-blue-500 text-black py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
+                Finalizar Compra
+            </button>
+        </div>
+    </div>
+
+{% endblock %}
