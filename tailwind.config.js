@@ -4,6 +4,9 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      screens: {
+        '3xl': '1899px'
+      },
       colors: {
         primary: {
           50: "rgb(var(--color-primary-50) / <alpha-value>)",
