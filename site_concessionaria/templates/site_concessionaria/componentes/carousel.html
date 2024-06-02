@@ -14,8 +14,11 @@
                         x-transition:leave-start="opacity-100 scale-100"
                         x-transition:leave-end="opacity-0 scale-95"
                 >
-                    <img class="h-screen w-screen" :src="item.img" :alt="item.desc">
+                    <img class="h-screen w-screen object-cover" :src="item.img" :alt="item.desc">
                 </div>
+            </template>
+            <template x-for="(item, index) in items" :key="index">
+                <h3 class="absolute drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] left-1/2 bottom-20 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-6xl" x-show="active === index" x-text="item.desc"></h3>
             </template>
         </div>
     </div>
@@ -25,7 +28,6 @@
                     @click="active = index">
                 <span class="text-center flex flex-col items-center"
                       :class="active === index ? '' : 'opacity-50 group-hover:opacity-100 group-focus:opacity-100 transition-opacity'">
-                    <span class="block text-sm font-medium text-slate-900 mb-2" x-text="item.desc"></span>
                     <span class="block relative min-w-6 w-20 bg-slate-200 h-1 rounded-full" role="progressbar"
                           :aria-valuenow="active === index ? progress : 0" aria-valuemin="0" aria-valuemax="100">
                         <span class="absolute inset-0 bg-black rounded-[inherit]"
@@ -46,8 +48,8 @@
             items: [
                 {% for imagem in imagens %}
                     {
-                        img: '{{ imagem }}',
-                        desc: '',
+                        img: '{{ imagem.link }}',
+                        desc: '{{ imagem.desc }}',
                     },
                 {% endfor %}
             ],
