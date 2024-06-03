@@ -1,19 +1,42 @@
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
 
-class Carro():
-    modelo = models.CharField(verbose_name="Modelo",max_length=50)
+
+class Carro(models.Model):
+    modelo = models.CharField(verbose_name="Modelo", max_length=50)
     ano = models.SmallIntegerField(verbose_name="Ano")
-    combustivel = models.CharField(verbose_name="Combustível",max_length=50)
-    #carroceria = models.CharField(verbose_name"Carroceria"max_length=50)
-    marca = models.CharField(verbose_name="Marca",max_length=50)
-    valorBase = models.DecimalField(verbose_name="Valor Base",max_digits=9,decimal_places=2)
-    created_at = models.DateTimeField(verbose_name="Data de criação", auto_now_add=True)
-    updated_at = models.DateTimeField(verbose_name="Data de atualização", auto_now=True)
+    combustivel = models.CharField(verbose_name="Combustível", max_length=50)
+    # carroceria = models.CharField(verbose_name"Carroceria"max_length=50)
+    marca = models.CharField(verbose_name="Marca", max_length=50)
+    valorBase = models.DecimalField(verbose_name="Valor Base", max_digits=9, decimal_places=2)
+    created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True)
     ativo = models.BooleanField(verbose_name="Ativo/Inativo", default=True)
 
-class Anexo():
+    def __str__(self):
+        return self.modelo
+
+
+def FileExtensionValidator(allowed_extensions):
+    def validator(value):
+        ext = value.name.split('.')[-1].lower()
+        if ext not in allowed_extensions:
+            raise ValidationError(
+                f'Extensao de arquivo nao permitida. As extensoes permitidas sao: {", ".join(allowed_extensions)}.')
+
+    return validator
+
+
+def validate_file_size(file):
+    max_size_mb = 5
+    if file.size > max_size_mb * 1024 * 1024:
+        raise ValidationError(f'Tamanho máximo do arquivo é {max_size_mb}MB')
+
+
+class Anexo(models.Model):
     nome = models.CharField(max_length=255, verbose_name="Nome")
-    descricao = models.TextField(verbose_name="Descrição")
+    descricao = models.TextField(verbose_name="Descricao")
     carro = models.ForeignKey(
         Carro, on_delete=models.SET_NULL, verbose_name='Carro', null=True
     )
@@ -21,20 +44,28 @@ class Anexo():
     arquivo = models.FileField(
         upload_to='site_concessionaria/',
         validators=[
-            FileExstencionValidator(['pdf', 'docx', "xlsx", "png", "jpeg"]),
+            FileExtensionValidator(['pdf', 'docx', "xlsx", "png", "jpeg"]),
             validate_file_size
         ],
         verbose_name='Arquivo'
     )
 
-class Recurso():
-    carro = models.ForeignKey(Carro,verbose_name="Carro_id", on_delete=models.CASCADE)
-    nome = models.CharField(max_length=50)
-    preco = models.DecimalField(max_digits=)
+    def __str__(self):
+        return self.nome
+
+
+class Recurso(models.Model):
+    carro = models.ForeignKey(Carro, verbose_name="Carro_id", on_delete=models.CASCADE)
+    nome = models.CharField(verbose_name="Nome", max_length=50)
+    preco = models.DecimalField(verbose_name="Preco", max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.nome} - {self.preco}"
+
 
 class Endereco(models.Model):
     rua = models.CharField(verbose_name="Rua", max_length=255)
-    numero = models.CharField(verbose_name="Número", max_length=255)
+    numero = models.CharField(verbose_name="Numero", max_length=255)
     complemento = models.CharField(verbose_name="Complemento", max_length=255, blank=True, default='')
     Bairro = models.CharField(verbose_name="Bairro", max_length=255)
     cidade = models.CharField(verbose_name="Cidade", max_length=255)
@@ -42,6 +73,9 @@ class Endereco(models.Model):
     cep = models.CharField(verbose_name="CEP", max_length=255)
     latitude = models.FloatField(verbose_name="latitude")
     longitude = models.FloatField(verbose_name="longitude")
-    created_at = models.DateTimeField(verbose_name="Data de criação", auto_now_add=True)
-    updated_at = models.DateTimeField(verbose_name="Data de atualização", auto_now=True)
+    created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True)
     ativo = models.BooleanField(verbose_name="Ativo/Inativo", default=True)
+
+    def __str__(self):
+        return f"{self.rua}, {self.numero}, {self.complemento}, {self.Bairro}, {self.cidade}, {self.estado}, {self.cep}"  # Uma representação mais detalhada do endereço
