@@ -13,18 +13,14 @@
     {% for img in imagens %}
 
     {% endfor %}
-    <div class="text-emerald-300 border border-amber-950 max-w-fit mx-auto flex gap-6 flex-col justify-center"><span> asduahsduhasadisj</span>
-        <span> adoihasoiudhasiuhdaushdau</span>
-        <span> adohijasoiuhdiaushdiauh</span></div>
+    <div class="text-emerald-300 border border-amber-950 max-w-fit mx-auto flex gap-6 flex-col justify-center"></div>
 
-    <body class="bg-gray-100 p-6">
-    <div class="container mx-auto bg-white p-6 rounded-lg shadow-lg">
     <body class="bg-gray-100 p-6">
     <div class="container mx-auto bg-white p-6 rounded-lg shadow-lg">
         <!-- Bloco 1: Slider de Fotos do Veículo -->
         <div class="mb-6">
             <h2 class="text-xl font-semibold mb-4">Fotos do Veículo</h2>
-            <div class="relative w-full mx-auto text-center" x-data="slider">
+            <div class="relative w-0.5 mx-3 text-center" x-data="slider">
                 <!-- Item image -->
                 <div class="transition-all duration-150 delay-300 ease-in-out">
                     <div class="relative flex flex-col" x-ref="items">
@@ -37,8 +33,9 @@
                                     x-transition:leave="transition ease-in-out duration-300 absolute"
                                     x-transition:leave-start="opacity-100 scale-100"
                                     x-transition:leave-end="opacity-0 scale-95"
+                                    class="flex justify-center items-center w-full"
                             >
-                                <img class="w-full h-auto rounded" :src="item.img" :alt="item.desc">
+                                <img class="w-1/2 h-auto rounded " :src="item.img" :alt="item.desc">
                             </div>
                         </template>
                     </div>
@@ -86,12 +83,66 @@
                 <p class="text-2xl font-bold text-green-600">R$ 85,000.00</p>
                 <p><strong>Impostos:</strong> R$ 5,000.00</p>
                 <p><strong>Adicionais de Transporte:</strong> R$ 2,000.00</p>
-
             </div>
-            <button class="w-full bg-blue-500 text-black py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
+            <button class="w-0.5 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
                 Finalizar Compra
             </button>
         </div>
     </div>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('slider', () => ({
+                duration: 7000,
+                active: 0,
+                progress: 0,
+                firstFrameTime: 0,
+                items: [
+                    {
+                        img: "{% static 'images/UNO-MILLE-FIRE-2002-01.jpg' %}",
+                        desc: 'Foto 1',
+                    },
+                    {
+                        img: "{% static 'images/yaris3.png' %}",
+                        desc: 'Foto 2',
+                    },
+                    {
+                        img: "{% static 'images/toyotaprius.jpg' %}",
+                        desc: 'Foto 3',
+                    },
+                ],
+                init() {
+                    this.startAnimation();
+                    this.$watch('active', callback => {
+                        cancelAnimationFrame(this.frame);
+                        this.startAnimation();
+                    });
+                },
+                startAnimation() {
+                    this.progress = 0;
+                    this.$nextTick(() => {
+                        this.heightFix();
+                        this.firstFrameTime = performance.now();
+                        this.frame = requestAnimationFrame(this.animate.bind(this));
+                    });
+                },
+                animate(now) {
+                    let timeFraction = (now - this.firstFrameTime) / this.duration;
+                    if (timeFraction <= 1) {
+                        this.progress = timeFraction * 100;
+                        this.frame = requestAnimationFrame(this.animate.bind(this));
+                    } else {
+                        timeFraction = 1;
+                        this.active = (this.active + 1) % this.items.length;
+                    }
+                },
+                heightFix() {
+                    this.$nextTick(() => {
+                        this.$refs.items.parentElement.style.height = this.$refs.items.children[this.active + 1].clientHeight + 'px';
+                    });
+                }
+            }));
+        });
+    </script>
+    </body>
 
 {% endblock %}
