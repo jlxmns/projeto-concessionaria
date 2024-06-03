@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'unfold',
     'unfold.contrib.forms',
+    "template_partials",
 
     #my apps
     'gestao_pessoas.apps.GestaoPessoasConfig',

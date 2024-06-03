@@ -1,0 +1,29 @@
+{% load partials %}
+
+<form action="" class="h-fit p-4 divide-y-2 *:py-4 first:*:pt-0 grid grid-cols-1 min-w-36" x-data="{ resetForm: () => $el.reset() }">
+    <h4 class="text-2xl font-bold ">Filtros</h4>
+    {% for filtro in filtros %}
+        {% partial 'opcoes-filtro' %}
+    {% endfor %}
+    <button type="button" class="flex items-center text-white justify-center p-2 rounded bg-gray-800" @click="resetForm">
+        Apagar Filtros
+    </button>
+</form>
+
+
+{% partialdef 'opcoes-filtro' %}
+    <div class="flex flex-col gap-2">
+        <h5 class="font-semibold">{{ filtro.name }}</h5>
+        {% for option in filtro.options %}
+            <div class="flex flex-row gap-2 items-center">
+                {% if option.type == "checkbox" %}
+                    <input class="inline-block rounded cursor-pointer" type="checkbox" id="{{ filtro.name }}-checkbox{{ forloop.counter }}" name="{{ filtro.name }}-checkbox{{ forloop.counter }}">
+                    <label class="inline-block cursor-pointer" for="{{ filtro.name }}-checkbox{{ forloop.counter }}">{{ option.display_name }}
+                    </label>
+                {% elif option.type == "slider" %}
+                    {% include 'site_concessionaria/componentes/price-slider.html' %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endpartialdef %}
