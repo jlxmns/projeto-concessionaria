@@ -35,9 +35,9 @@ class Carro(models.Model):
     combustivel = models.CharField(verbose_name="Combustível", max_length=50)
     # carroceria = models.CharField(verbose_name"Carroceria"max_length=50)
     marca = models.CharField(verbose_name="Marca", max_length=50)
-    valorBase = models.DecimalField(verbose_name="Valor Base", max_digits=9, decimal_places=2)
-    created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True)
-    updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True)
+    valorBase = models.FloatField(verbose_name="Valor Base")
+    created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True),
+    updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True),
     ativo = models.BooleanField(verbose_name="Ativo/Inativo", default=True)
 
     def __str__(self):
@@ -65,9 +65,8 @@ class Anexo(models.Model):
 
 
 class Recurso(models.Model):
-    carro = models.ForeignKey(Carro, verbose_name="Carro_id", on_delete=models.CASCADE)
     nome = models.CharField(verbose_name="Nome", max_length=50)
-    preco = models.DecimalField(verbose_name="Preco", max_digits=10, decimal_places=2)
+    preco = models.FloatField(verbose_name="Preco")
 
     def __str__(self):
         return f"{self.nome} - {self.preco}"
@@ -81,6 +80,22 @@ class Loja (models.Model):
 class Agendamentos(models.Model):
     cliente = models.ForeignKey(Cliente, verbose_name="Cliente_id", on_delete=models.CASCADE)
     loja = models.ForeignKey(Loja, verbose_name="Loja_id", on_delete=models.CASCADE)
+    carro = models.ForeignKey(Carro, verbose_name="Carro_id", on_delete=models.CASCADE)
     dataHoraAgendamento = models.DateTimeField(verbose_name="Data Hora Agendamento")
     def __str__(self):
         return f"Agendamento na loja {self.loja} às {self.dataHoraAgendamento}"
+
+class Simulacao(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    nome = models.CharField(verbose_name="Nome da Simulação", max_length=100)
+    precoFinal = models.FloatField(verbose_name="Preco Final")
+    created_at = models.DateTimeField(verbose_name="Nome da Simulação", auto_now=True)
+    updated_at = models.DateTimeField(verbose_name="Nome da Simulação", auto_now_add=True)
+
+class CarroRecurso(models.Model):
+    simulacao = models.ForeignKey(Simulacao, on_delete=models.CASCADE)
+    carro = models.ForeignKey(Carro, on_delete=models.CASCADE)
+    recurso = models.ForeignKey(Recurso, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ['simulacao', 'carro', 'recurso']
