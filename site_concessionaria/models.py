@@ -1,7 +1,33 @@
-from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.contrib.auth.models import User
 
+from comum.utils import validate_file_size
+
+class Endereco(models.Model):
+    rua = models.CharField(verbose_name="Rua", max_length=255)
+    numero = models.CharField(verbose_name="Numero", max_length=255)
+    complemento = models.CharField(verbose_name="Complemento", max_length=255, blank=True, default='')
+    Bairro = models.CharField(verbose_name="Bairro", max_length=255)
+    cidade = models.CharField(verbose_name="Cidade", max_length=255)
+    estado = models.CharField(verbose_name="estado", max_length=255)
+    cep = models.CharField(verbose_name="CEP", max_length=255)
+    latitude = models.FloatField(verbose_name="latitude")
+    longitude = models.FloatField(verbose_name="longitude")
+    created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True)
+    ativo = models.BooleanField(verbose_name="Ativo/Inativo", default=True)
+
+    def __str__(self):
+        return f"{self.rua}, {self.numero}, {self.complemento}, {self.Bairro}, {self.cidade}, {self.estado}, {self.cep}"
+
+class Cliente(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    endereco = models.ForeignKey(Endereco, verbose_name="endereco_id", on_delete=models.CASCADE, null=True)
+    telefone = models.CharField(max_length=15)
+
+    def __str__(self):
+        return f"{self.user.name} {self.user.username}"
 
 class Carro(models.Model):
     modelo = models.CharField(verbose_name="Modelo", max_length=50)
@@ -16,22 +42,6 @@ class Carro(models.Model):
 
     def __str__(self):
         return self.modelo
-
-
-def FileExtensionValidator(allowed_extensions):
-    def validator(value):
-        ext = value.name.split('.')[-1].lower()
-        if ext not in allowed_extensions:
-            raise ValidationError(
-                f'Extensao de arquivo nao permitida. As extensoes permitidas sao: {", ".join(allowed_extensions)}.')
-
-    return validator
-
-
-def validate_file_size(file):
-    max_size_mb = 5
-    if file.size > max_size_mb * 1024 * 1024:
-        raise ValidationError(f'Tamanho máximo do arquivo é {max_size_mb}MB')
 
 
 class Anexo(models.Model):
@@ -62,20 +72,15 @@ class Recurso(models.Model):
     def __str__(self):
         return f"{self.nome} - {self.preco}"
 
-
-class Endereco(models.Model):
-    rua = models.CharField(verbose_name="Rua", max_length=255)
-    numero = models.CharField(verbose_name="Numero", max_length=255)
-    complemento = models.CharField(verbose_name="Complemento", max_length=255, blank=True, default='')
-    Bairro = models.CharField(verbose_name="Bairro", max_length=255)
-    cidade = models.CharField(verbose_name="Cidade", max_length=255)
-    estado = models.CharField(verbose_name="estado", max_length=255)
-    cep = models.CharField(verbose_name="CEP", max_length=255)
-    latitude = models.FloatField(verbose_name="latitude")
-    longitude = models.FloatField(verbose_name="longitude")
-    created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True)
-    updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True)
-    ativo = models.BooleanField(verbose_name="Ativo/Inativo", default=True)
-
+class Loja (models.Model):
+    nome = models.CharField(verbose_name="Nome Loja")
+    telefone = models.CharField(verbose_name="Telefone")
+    endereco = models.ForeignKey(Endereco, verbose_name="endereco_id", on_delete=models.CASCADE)
     def __str__(self):
-        return f"{self.rua}, {self.numero}, {self.complemento}, {self.Bairro}, {self.cidade}, {self.estado}, {self.cep}"  # Uma representação mais detalhada do endereço
+        return f"{self.nome} ({self.telefone})"
+class Agendamentos(models.Model):
+    cliente = models.ForeignKey(Cliente, verbose_name="Cliente_id", on_delete=models.CASCADE)
+    loja = models.ForeignKey(Loja, verbose_name="Loja_id", on_delete=models.CASCADE)
+    dataHoraAgendamento = models.DateTimeField(verbose_name="Data Hora Agendamento")
+    def __str__(self):
+        return f"Agendamento na loja {self.loja} às {self.dataHoraAgendamento}"
