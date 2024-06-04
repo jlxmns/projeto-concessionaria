@@ -3,6 +3,8 @@ from comum.views import TemplateBaseView
 
 import os
 
+from site_concessionaria.models import Carro
+
 
 # Create your views here.
 
@@ -56,7 +58,7 @@ class ListagemCarrosView(TemplateBaseView):
             )
         ]
 
-        # context['carros'] = queryset com todos os carros
+        context['carros'] = Carro.objects.all()[:20]
         context['filtros'] = filtros
 
         return context
@@ -114,9 +116,6 @@ class MapView(TemplateBaseView):
 
         return context
 
-from django.shortcuts import render, get_object_or_404
-from .models import Carro
-
 class CarDetail(TemplateBaseView):
     template_name = "site_concessionaria/car_detail.html"
 
@@ -124,5 +123,5 @@ class CarDetail(TemplateBaseView):
        context = super().get_context_data(**kwargs)
        carro = kwargs.get("car_id")
        carro = Carro.objects.filter(id=carro).first()
-       context["car"]=carro
+       context["car"] = carro
        return context

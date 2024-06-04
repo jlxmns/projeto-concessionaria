@@ -2,7 +2,9 @@
 
 {% load i18n admin_urls static admin_modify my_templatetags %}
 
-{% block extrahead %}{{ block.super }}
+
+{% block extrahead %}
+    {{ block.super }}
     <script src="{% url 'admin:jsi18n' %}"></script>
     {{ media }}
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
@@ -10,8 +12,6 @@
 
 {% block base %}
     {% include 'site_concessionaria/componentes/header.html' %}
-
-    <div class="text-emerald-300 border border-amber-950 max-w-fit mx-auto flex gap-6 flex-col justify-center"></div>
 
     <body class="bg-gray-100 p-6">
     <div class="container mx-auto bg-white p-6 rounded-lg shadow-lg">
@@ -33,7 +33,7 @@
                                     x-transition:leave-end="opacity-0 scale-95"
                                     class="flex justify-center items-center w-full"
                             >
-                                <img class="w-1/2 h-auto rounded " :src="item.img" :alt="item.desc">
+                                <img class="w-1/2 h-auto rounded" :src="item.img" :alt="item.desc">
                             </div>
                         </template>
                     </div>
@@ -57,29 +57,35 @@
             </div>
         </div>
         <!-- Bloco 2: Detalhes do Veículo -->
-        <div class="mb-6">
+        <div class="mb-6 flex-col">
             <h2 class="text-xl font-semibold mb-4">Detalhes do Veículo</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <p><strong>Ano:</strong> {{ car.ano }}</p>
                     <p><strong>Combustível:</strong> {{ car.combustivel }}</p>
                     <p><strong>Marca:</strong> {{ car.marca }}</p>
+                    <p><strong>Modelo:</strong> {{ car.modelo }}</p>
                 </div>
             </div>
         </div>
         <!-- Bloco 3: Valor do Veículo -->
-        <div class="flex-col">
-            <h2 class="text-xl font-semibold mb-4">Valor do Veículo</h2>
+        <div class="flex justify-center items-center gap-6">
+            <h2 class="text-xl font-semibold mb-4 border-amber-950">Valor do Veículo</h2>
             <div class="bg-gray-100 p-4 rounded mb-4">
-                <p class="text-2xl font-bold text-green-600 justify-center">R$ {{ car.valorBase}}</p>
+                <p class="text-2xl font-bold text-green-600 justify-center">R$ {{ car.valorBase }}</p>
             </div>
         </div>
-        <div class="">
-            <button class="w-1/4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 justify-center ">
+        <div class="flex justify-center">
+            <button class="w-1/4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 justify-center">
                 Finalizar Compra
             </button>
         </div>
     </div>
+
+    {% for image in car.anexo_set.all %}
+        <div>{{ image.arquivo.url }}</div>
+    {% endfor %}
+
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('slider', () => ({
@@ -88,18 +94,12 @@
                 progress: 0,
                 firstFrameTime: 0,
                 items: [
-                    {
-                        img: "{{ car.image.url }}",
-                        desc: 'Foto 1',
-                    },
-                    {
-                        img: "{{ car.image.url }}",
-                        desc: 'Foto 2',
-                    },
-                    {
-                        img: "{{ car.image.url }}",
-                        desc: 'Foto 3',
-                    },
+                    {% for imagem in car.anexo_set.all %}
+                        {
+                            img: '{{ imagem.arquivo.url }}',
+                            desc: '{{ imagem.descricao }}',
+                        },
+                    {% endfor %}
                 ],
                 init() {
                     this.startAnimation();
@@ -134,6 +134,8 @@
             }));
         });
     </script>
+
+    {% include 'site_concessionaria/componentes/footer.html' %}
     </body>
 
 {% endblock %}

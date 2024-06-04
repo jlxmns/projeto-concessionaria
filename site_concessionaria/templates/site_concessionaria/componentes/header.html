@@ -1,4 +1,4 @@
-{% load static %}
+{% load static account %}
 
 <header class="text-gray-800 flex px-2 sm:px-6 py-3 gap-6 lg:gap-20 bg-gray-50 sticky top-0 z-50" x-data="{ openedMenu: 'none' }">
     <div class="mx-auto flex justify-between flex-row px-2 sm:px-6 py-3 gap-6 lg:gap-48 bg-gray-50 sticky top-0 z-50">
@@ -75,13 +75,15 @@
             </div>
             {% if user.is_authenticated %}
             <div class="flex flex-row items-center gap-2">
-                <a href="">
+                Bem vindo {% user_display user %}
+                <a href="{% url 'account_logout' %}">
                     <span class="material-symbols-outlined" style="font-size: 36px;">account_circle</span>
                 </a>
             </div>
             {% else %}
                 <div class="flex flex-row items-center gap-2">
-                    <a href="">
+                    Login
+                    <a href="{% url 'account_login' %}">
                         <span class="material-symbols-outlined" style="font-size: 36px;">account_circle</span>
                     </a>
                 </div>
