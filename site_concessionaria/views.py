@@ -35,13 +35,9 @@ class ListagemCarrosView(TemplateBaseView):
 
         filtros = [
             Filter(
-                name="Veículos",
-                options=[
-                    Option("Carros", "checkbox"),
-                    Option("Elétricos", "checkbox"),
-                    Option("SUV", "checkbox"),
-                    Option("Minivan", "checkbox"),
-                ]),
+                name="Marca",
+                options=[Option(marca, "checkbox") for marca in Carro.objects.all().values_list('marca', flat=True).distinct()]
+            ),
             Filter(
                 name="Valor",
                 options=[
@@ -50,12 +46,7 @@ class ListagemCarrosView(TemplateBaseView):
             ),
             Filter(
                 name="Ano",
-                options=[
-                    Option("2022", type="checkbox"),
-                    Option("2023", type="checkbox"),
-                    Option("2024", type="checkbox"),
-                    Option("2025", type="checkbox"),
-                ]
+                options=[Option(ano, "checkbox") for ano in Carro.objects.all().values_list('ano', flat=True).order_by('-ano').distinct()]
             )
         ]
 
@@ -130,6 +121,17 @@ class CarDetail(TemplateBaseView):
 
 def filtrar_carros(request):
     if request.htmx:
-        print(request)
+        carros = Carro.objects.all()
+
+        marcas_selecionadas = []
+
+        for id, value in request.POST.items():
+            if 'Marca-' in id:
+                split = id.split('-')
+                marca = split[1]
+                marcas_selecionadas.append(marca)
+
+        carros = carros.filter(marca__in=marcas_selecionadas)
+
         return HttpResponse(status=400)
     return HttpResponse(status=200)
