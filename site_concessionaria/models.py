@@ -27,7 +27,7 @@ class Cliente(models.Model):
     telefone = models.CharField(max_length=15)
 
     def __str__(self):
-        return f"{self.user.name} {self.user.username}"
+        return f"{self.user.first_name} {self.user.last_name}"
 
 class Carro(models.Model):
     modelo = models.CharField(verbose_name="Modelo", max_length=50)
@@ -52,7 +52,7 @@ class Anexo(models.Model):
     )
 
     arquivo = models.FileField(
-        upload_to='site_concessionaria/',
+        upload_to='site_concessionaria/anexos',
         validators=[
             FileExtensionValidator(['pdf', 'docx', "xlsx", "png", "jpeg"]),
             validate_file_size
