@@ -45,9 +45,8 @@ class AnexoAdmin(admin.ModelAdmin):
 
 @admin.register(Recurso)
 class RecursoAdmin(admin.ModelAdmin):
-    list_display = ['nome', 'carro', 'preco']
-    search_fields = ['nome', 'carro__modelo']
-    list_filter = ['carro']
+    list_display = ['nome', 'preco']
+    search_fields = ['nome']
 
 @admin.register(Loja)
 class LojaAdmin(admin.ModelAdmin):
