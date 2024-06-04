@@ -57,7 +57,7 @@
             </div>
         </div>
         <!-- Bloco 2: Detalhes do Veículo -->
-        <div class="mb-6">
+        <div class="mb-6 flex-col ">
             <h2 class="text-xl font-semibold mb-4">Detalhes do Veículo</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -68,18 +68,19 @@
             </div>
         </div>
         <!-- Bloco 3: Valor do Veículo -->
-        <div class="flex-col">
-            <h2 class="text-xl font-semibold mb-4">Valor do Veículo</h2>
+        <div class="flex justify-center items-center gap-6">
+            <h2 class="text-xl font-semibold mb-4 border-amber-950">Valor do Veículo</h2>
             <div class="bg-gray-100 p-4 rounded mb-4">
                 <p class="text-2xl font-bold text-green-600 justify-center">R$ {{ car.valorBase}}</p>
             </div>
         </div>
-        <div class="">
+        <div class="flex justify-center">
             <button class="w-1/4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 justify-center ">
                 Finalizar Compra
             </button>
         </div>
     </div>
+
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('slider', () => ({
@@ -88,18 +89,12 @@
                 progress: 0,
                 firstFrameTime: 0,
                 items: [
-                    {
-                        img: "{{ car.image.url }}",
-                        desc: 'Foto 1',
-                    },
-                    {
-                        img: "{{ car.image.url }}",
-                        desc: 'Foto 2',
-                    },
-                    {
-                        img: "{{ car.image.url }}",
-                        desc: 'Foto 3',
-                    },
+                    {%for imagem in car.anexo_set.all %}
+                        {
+                            img: '{{ imagem}}',
+                            desc: '',
+                        },
+                    {% endfor %}
                 ],
                 init() {
                     this.startAnimation();
@@ -135,5 +130,5 @@
         });
     </script>
     </body>
-
+    {% include 'site_concessionaria/componentes/footer.html' %}
 {% endblock %}
