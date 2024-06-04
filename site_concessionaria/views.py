@@ -1,4 +1,6 @@
+from django.db.models import Min, Max
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.templatetags.static import static
 from comum.views import TemplateBaseView
 
@@ -33,6 +35,12 @@ class ListagemCarrosView(TemplateBaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        valor_min_max = Carro.objects.aggregate(Min('valorBase'), Max('valorBase'))
+        valor_min = valor_min_max['valorBase__min']
+        valor_max = valor_min_max['valorBase__max']
+        context['valor_min'] = valor_min
+        context['valor_max'] = valor_max
+        context['valor_media'] = (valor_min + valor_max) / 2
         filtros = [
             Filter(
                 name="Marca",
@@ -124,14 +132,26 @@ def filtrar_carros(request):
         carros = Carro.objects.all()
 
         marcas_selecionadas = []
-
+        anos_selecionados = []
         for id, value in request.POST.items():
+
             if 'Marca-' in id:
                 split = id.split('-')
                 marca = split[1]
                 marcas_selecionadas.append(marca)
+            elif 'Ano-' in id:
+                split = id.split('-')
+                ano = split[1]
+                anos_selecionados.append(ano)
+        if marcas_selecionadas:
+            carros = carros.filter(marca__in=marcas_selecionadas)
 
-        carros = carros.filter(marca__in=marcas_selecionadas)
+        if anos_selecionados:
+            carros = carros.filter(ano__in=anos_selecionados)
 
-        return HttpResponse(status=400)
-    return HttpResponse(status=200)
+        context = dict()
+        context['carros'] = carros
+        context['carros_count'] = carros.count()
+
+        return render(request, 'site_concessionaria/componentes/carros-filtrados.html', context)
+    return HttpResponse(status=400)
