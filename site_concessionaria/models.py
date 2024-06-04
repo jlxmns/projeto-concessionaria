@@ -1,7 +1,6 @@
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.contrib.auth.models import User
-
 from comum.utils import validate_file_size
 
 class Endereco(models.Model):
@@ -21,6 +20,7 @@ class Endereco(models.Model):
     def __str__(self):
         return f"{self.rua}, {self.numero}, {self.complemento}, {self.Bairro}, {self.cidade}, {self.estado}, {self.cep}"
 
+
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     endereco = models.ForeignKey(Endereco, verbose_name="endereco_id", on_delete=models.CASCADE, null=True)
@@ -30,6 +30,7 @@ class Cliente(models.Model):
         return f"{self.user.first_name} {self.user.last_name}"
 
 class Carro(models.Model):
+
     modelo = models.CharField(verbose_name="Modelo", max_length=50)
     ano = models.SmallIntegerField(verbose_name="Ano")
     combustivel = models.CharField(verbose_name="Combustível", max_length=50)
