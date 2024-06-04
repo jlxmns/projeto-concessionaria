@@ -18,8 +18,8 @@
         {% for option in filtro.options %}
             <div class="flex flex-row gap-2 items-center">
                 {% if option.type == "checkbox" %}
-                    <input class="inline-block rounded cursor-pointer" type="checkbox" id="{{ filtro.name }}-checkbox{{ forloop.counter }}" name="{{ filtro.name }}-checkbox{{ forloop.counter }}">
-                    <label class="inline-block cursor-pointer" for="{{ filtro.name }}-checkbox{{ forloop.counter }}">{{ option.display_name }}
+                    <input class="inline-block rounded cursor-pointer" type="checkbox" id="{{ filtro.name }}-{{ option.display_name }}" name="{{ filtro.name }}-{{ option.display_name }}">
+                    <label class="inline-block cursor-pointer" for="{{ filtro.name }}-{{ option.display_name }}">{{ option.display_name }}
                     </label>
                 {% elif option.type == "slider" %}
                     {% include 'site_concessionaria/componentes/price-slider.html' %}
