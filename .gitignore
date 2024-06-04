@@ -3,3 +3,4 @@ node_modules
 venv
 database.ini
 .git
+*.pyc

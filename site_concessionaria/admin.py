@@ -2,9 +2,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
-from .models import Carro
 
 from unfold.admin import ModelAdmin
+
+from site_concessionaria.models import *
 
 # Register your models here.
 admin.site.unregister(User)
@@ -22,5 +23,30 @@ class GroupAdmin(ModelAdmin):
 
 
 @admin.register(Carro)
-class CarroAdmin(ModelAdmin):
-    pass
+class CarroAdmin(admin.ModelAdmin):
+    list_display = ['modelo', 'ano', 'marca', 'valorBase', 'ativo']
+    search_fields = ['modelo', 'ano', 'marca']
+    list_filter = ['marca', 'ativo']
+
+@admin.register(Anexo)
+class AnexoAdmin(admin.ModelAdmin):
+    list_display = ['nome', 'carro', 'arquivo']
+    search_fields = ['nome', 'carro__modelo']
+    list_filter = ['carro']
+
+@admin.register(Recurso)
+class RecursoAdmin(admin.ModelAdmin):
+    list_display = ['nome', 'preco']
+    search_fields = ['nome']
+
+@admin.register(Loja)
+class LojaAdmin(admin.ModelAdmin):
+    list_display = ['nome', 'telefone', 'endereco']
+    search_fields = ['nome', 'telefone']
+    list_filter = ['endereco']
+
+@admin.register(Agendamentos)
+class AgendamentosAdmin(admin.ModelAdmin):
+    list_display = ['cliente', 'loja', 'dataHoraAgendamento']
+    search_fields = ['cliente__user__username', 'loja__nome']
+    list_filter = ['loja']
