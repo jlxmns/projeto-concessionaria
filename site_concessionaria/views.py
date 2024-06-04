@@ -58,7 +58,7 @@ class ListagemCarrosView(TemplateBaseView):
             )
         ]
 
-        context['carros'] = Carro.objects.all()
+        context['carros'] = Carro.objects.all()[:20]
         context['filtros'] = filtros
 
         return context
