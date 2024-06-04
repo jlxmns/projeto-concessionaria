@@ -1,0 +1,258 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-03 15:56-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\cart\templates\cart\item_list.html:5
+msgid "abubuel"
+msgstr ""
+
+#: .\concessionaria\templates\allauth_ui\account\email_confirm.html:5
+#: .\concessionaria\templates\allauth_ui\account\email_confirm.html:8
+msgid "Confirm E-mail Address"
+msgstr "Confirmar E-mail"
+
+#: .\concessionaria\templates\allauth_ui\account\email_confirm.html:11
+#, python-format
+msgid ""
+"\n"
+"  Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-"
+"mail address for user %(user_display)s.\n"
+"  "
+msgstr ""
+"\n"
+"  Por favor, confirme que <a href=\"mailto:%(email)s\">%(email)s</a> é um"
+"endereço de email válido para o usuário %(user_display)s.\n"
+"  "
+
+#: .\concessionaria\templates\allauth_ui\account\email_confirm.html:23
+#, python-format
+msgid ""
+"\n"
+"  This e-mail confirmation link expired or is invalid. Please <a "
+"href=\"%(email_url)s\">issue a new e-mail confirmation request.</a>\n"
+"  "
+msgstr ""
+"\n"
+"  Esse link de confirmação de email expirou ou é inválido. Por favor, tente <a "
+"href=\"%(email_url)s\">gerar uma nova solicitação de confirmação.</a>\n"
+"  "
+
+#: .\concessionaria\templates\allauth_ui\account\login.html:4
+#, fuzzy
+#| msgid "Sign Up"
+msgid "Sign in"
+msgstr "Entrar"
+
+#: .\concessionaria\templates\allauth_ui\account\login.html:28
+msgid "Login"
+msgstr ""
+
+#: .\concessionaria\templates\allauth_ui\account\login.html:32
+msgid "Forgot Password"
+msgstr "Esqueci a Senha"
+
+#: .\concessionaria\templates\allauth_ui\account\login.html:35
+#: .\concessionaria\templates\allauth_ui\socialaccount\signup.html:4
+#: .\concessionaria\templates\allauth_ui\socialaccount\signup.html:7
+msgid "Sign Up"
+msgstr "Registrar"
+
+#: .\concessionaria\templates\allauth_ui\account\logout.html:4
+#, fuzzy
+#| msgid "Sign Up"
+msgid "Sign out"
+msgstr "Sair"
+
+#: .\concessionaria\templates\allauth_ui\account\logout.html:9
+msgid "Are you sure you want to sign out?"
+msgstr "Você tem certeza que deseja sair?"
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset.html:4
+#: .\concessionaria\templates\allauth_ui\account\password_reset.html:7
+#: .\concessionaria\templates\allauth_ui\account\password_reset_done.html:4
+#, fuzzy
+#| msgid "Password"
+msgid "Password Reset"
+msgstr "Trocar Senha"
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset.html:9
+msgid ""
+"Enter your user account's verified email address and we will send you a "
+"password reset link."
+msgstr ""
+"Informe o email verificado da sua conta e nós enviaremos um link para "
+"trocar a senha."
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset.html:15
+msgid "Reset my password"
+msgstr "Trocar minha senha"
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset_done.html:9
+msgid "Reset email sent"
+msgstr "Email enviado"
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset_done.html:17
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"Nós enviamos um email para você. Por favor, entre em contato caso você "
+"não o receba em alguns minutos."
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset_from_key.html:4
+#: .\concessionaria\templates\allauth_ui\account\password_reset_from_key.html:11
+#, fuzzy
+#| msgid "Password"
+msgid "Change Password"
+msgstr "Trocar Senha"
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset_from_key.html:9
+msgid "Bad Token"
+msgstr "Token Inválida"
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset_from_key.html:19
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. <br>\n"
+"        Please request a\n"
+"        <a class=\"text-blue-400 hover:text-blue-500\" "
+"href=\"%(passwd_reset_url)s\">new password reset</a>."
+msgstr ""
+"Esse link de trocar de senha é inválido, pois possivelmente já foi "
+"utilizado. <br>\n"
+"        Por favor, solicite uma\n"
+"        <a class=\"text-blue-400 hover:text-blue-500\" "
+"href=\"%(passwd_reset_url)s\">nova troca de senha</a>."
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset_from_key.html:28
+#, fuzzy
+#| msgid "Password"
+msgid "Change password"
+msgstr "Trocar Senha"
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset_from_key.html:32
+#: .\concessionaria\templates\allauth_ui\account\password_reset_from_key_done.html:10
+msgid "Your password is now changed."
+msgstr "Sua senha foi trocada."
+
+#: .\concessionaria\templates\allauth_ui\account\password_reset_from_key_done.html:4
+#: .\concessionaria\templates\allauth_ui\account\password_reset_from_key_done.html:9
+#, fuzzy
+#| msgid "Password"
+msgid "Changed Password"
+msgstr "Trocar Senha"
+
+#: .\concessionaria\templates\allauth_ui\account\signup.html:4
+#: .\concessionaria\templates\allauth_ui\account\signup.html:13
+#: .\concessionaria\templates\allauth_ui\socialaccount\signup.html:19
+#, fuzzy
+#| msgid "Sign Up"
+msgid "Sign up"
+msgstr "Registrar"
+
+#: .\concessionaria\templates\allauth_ui\account\signup.html:17
+msgid "Already have an account? Sign in."
+msgstr "Já tem uma conta? Entrar."
+
+#: .\concessionaria\templates\allauth_ui\account\signup_closed.html:4
+#: .\concessionaria\templates\allauth_ui\account\signup_closed.html:9
+#, fuzzy
+#| msgid "Sign Up"
+msgid "Sign Up Closed"
+msgstr "Registro Fechado"
+
+#: .\concessionaria\templates\allauth_ui\account\signup_closed.html:10
+msgid "We are sorry, but the sign up is currently closed."
+msgstr "Sinto muito, mas o registro de novas contas está fechado."
+
+#: .\concessionaria\templates\allauth_ui\account\verification_sent.html:4
+#: .\concessionaria\templates\allauth_ui\account\verification_sent.html:9
+msgid "Verify Your E-mail Address"
+msgstr "Verifique seu email"
+
+#: .\concessionaria\templates\allauth_ui\account\verification_sent.html:11
+msgid ""
+"\n"
+"      We have sent an e-mail to you for verification. Follow the link "
+"provided to finalize the signup process.\n"
+"      Please contact us if you do not receive it within a few minutes.\n"
+"      "
+msgstr ""
+"\n"
+"      Nós enviamos um email de verificação. Siga o link fornecido para "
+"finalizar o registro.\n"
+"      Por favor, entre em contato caso você não receba nenhum email em alguns minutos.\n"
+"      "
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\authentication_error.html:4
+#: .\concessionaria\templates\allauth_ui\socialaccount\authentication_error.html:9
+msgid "Social Network Login Failure"
+msgstr ""
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\authentication_error.html:10
+msgid ""
+"An error occurred while attempting to login via your social network account."
+msgstr ""
+"Ocorreu um erro ao tentar entrar na sua conta de rede social."
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\connections.html:4
+#: .\concessionaria\templates\allauth_ui\socialaccount\connections.html:7
+msgid "Account Connections"
+msgstr "Conexões da Conta"
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\connections.html:10
+msgid "You have the following social accounts connected:"
+msgstr ""
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\connections.html:34
+msgid ""
+"You currently have no social network accounts connected to this account."
+msgstr ""
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\connections.html:41
+msgid "Add a third party account"
+msgstr ""
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\login.html:13
+msgid "You are about to connect a new third party account from"
+msgstr ""
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\login.html:15
+msgid "You are about to sign in using a third party account from"
+msgstr ""
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\login.html:22
+msgid "Continue"
+msgstr "Continuar"
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\signup.html:9
+#, python-format
+msgid ""
+"\n"
+"  You are about to use your %(provider_name)s account to login to\n"
+"  %(site_name)s. As a final step, please complete the following form:\n"
+msgstr ""
+
+#: .\concessionaria\templates\allauth_ui\socialaccount\snippets\social_login.html:9
+msgid "Sign in with a third party"
+msgstr ""
+
+#~ msgid "Username"
+#~ msgstr "Nome do Usuário"

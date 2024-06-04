@@ -3,6 +3,8 @@ from comum.views import TemplateBaseView
 
 import os
 
+from site_concessionaria.models import Carro
+
 
 # Create your views here.
 
@@ -56,7 +58,7 @@ class ListagemCarrosView(TemplateBaseView):
             )
         ]
 
-        # context['carros'] = queryset com todos os carros
+        context['carros'] = Carro.objects.all()
         context['filtros'] = filtros
 
         return context

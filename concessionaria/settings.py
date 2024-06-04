@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'gestao_pessoas.apps.GestaoPessoasConfig',
     'site_concessionaria.apps.SiteConcessionariaConfig',
     'comum.apps.ComumConfig',
+    'cart.apps.CartConfig',
 
     #standard apps
     'django.contrib.admin',
@@ -50,6 +51,10 @@ INSTALLED_APPS = [
 
     #my libs
     'django_htmx',
+    "allauth_ui",
+    "allauth",
+    "allauth.account",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
@@ -61,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'concessionaria.urls'
@@ -68,7 +74,9 @@ ROOT_URLCONF = 'concessionaria.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / "templates"
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -150,8 +158,15 @@ PROJECT_PATH = str(BASE_DIR)
 STATICFILES_DIRS = [BASE_DIR / "concessionaria" / "static"]
 STATIC_ROOT = os.path.join(PROJECT_PATH, "deploy/static")
 
-## UNFOLD
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
-from django.templatetags.static import static
-from django.urls import reverse_lazy
-from django.utils.translation import gettext_lazy as _
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
+
+ACCOUNT_ADAPTER = 'concessionaria.users.allauth.AccountAdapter'
+
+
