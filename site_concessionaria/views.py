@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.templatetags.static import static
 from comum.views import TemplateBaseView
 
@@ -125,3 +126,10 @@ class CarDetail(TemplateBaseView):
        carro = Carro.objects.filter(id=carro).first()
        context["car"] = carro
        return context
+
+
+def filtrar_carros(request):
+    if request.htmx:
+        print(request)
+        return HttpResponse(status=400)
+    return HttpResponse(status=200)
