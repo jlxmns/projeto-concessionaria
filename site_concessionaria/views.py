@@ -83,7 +83,7 @@ class Option:
 
 
 class CarSearch(TemplateBaseView):
-    template_name = "site_concessionaria/carSearch.html"
+    template_name = "site_concessionaria/car_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -115,3 +115,13 @@ class MapView(TemplateBaseView):
         context['teste'] = "teste"
 
         return context
+
+class CarDetail(TemplateBaseView):
+    template_name = "site_concessionaria/car_detail.html"
+
+    def get_context_data(self, **kwargs):
+       context = super().get_context_data(**kwargs)
+       carro = kwargs.get("car_id")
+       carro = Carro.objects.filter(id=carro).first()
+       context["car"] = carro
+       return context
