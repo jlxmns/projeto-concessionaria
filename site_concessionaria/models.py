@@ -30,7 +30,6 @@ class Cliente(models.Model):
         return f"{self.user.first_name} {self.user.last_name}"
 
 class Carro(models.Model):
-    carro_id = models.Index()
     modelo = models.CharField(verbose_name="Modelo", max_length=50)
     ano = models.SmallIntegerField(verbose_name="Ano")
     combustivel = models.CharField(verbose_name="Combustível", max_length=50)
