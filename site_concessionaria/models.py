@@ -30,12 +30,18 @@ class Cliente(models.Model):
         return f"{self.user.first_name} {self.user.last_name}"
 
 class Carro(models.Model):
+    carro_id = models.Index()
     modelo = models.CharField(verbose_name="Modelo", max_length=50)
     ano = models.SmallIntegerField(verbose_name="Ano")
     combustivel = models.CharField(verbose_name="Combustível", max_length=50)
-    # carroceria = models.CharField(verbose_name"Carroceria"max_length=50)
     marca = models.CharField(verbose_name="Marca", max_length=50)
     valorBase = models.FloatField(verbose_name="Valor Base")
+    quilometragem = models.IntegerField(verbose_name="Quilometragem")
+    final_placa = models.CharField(verbose_name="Final da placa")
+    ipva_pago = models.BooleanField(verbose_name="IPVa pago")
+    transmissao = models.CharField(verbose_name="Transmissao")
+    cor = models.CharField(verbose_name="Cor")
+    disponivel = models.BooleanField(verbose_name="Disponivel")
     created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True),
     updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True),
     ativo = models.BooleanField(verbose_name="Ativo/Inativo", default=True)
