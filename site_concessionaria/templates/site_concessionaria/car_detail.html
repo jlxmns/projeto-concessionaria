@@ -1,0 +1,139 @@
+{% extends 'unfold/layouts/skeleton.html' %}
+
+{% load i18n admin_urls static admin_modify my_templatetags %}
+
+{% block extrahead %}{{ block.super }}
+    <script src="{% url 'admin:jsi18n' %}"></script>
+    {{ media }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block base %}
+    {% include 'site_concessionaria/componentes/header.html' %}
+
+    <div class="text-emerald-300 border border-amber-950 max-w-fit mx-auto flex gap-6 flex-col justify-center"></div>
+
+    <body class="bg-gray-100 p-6">
+    <div class="container mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <!-- Bloco 1: Slider de Fotos do Veículo -->
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-4">Fotos do Veículo</h2>
+            <div class="relative w-0.5 mx-3 text-center" x-data="slider">
+                <!-- Item image -->
+                <div class="transition-all duration-150 delay-300 ease-in-out">
+                    <div class="relative flex flex-col" x-ref="items">
+                        <template x-for="(item, index) in items" :key="index">
+                            <div
+                                    x-show="active === index"
+                                    x-transition:enter="transition ease-in-out duration-500 delay-200 order-first"
+                                    x-transition:enter-start="opacity-0 scale-105"
+                                    x-transition:enter-end="opacity-100 scale-100"
+                                    x-transition:leave="transition ease-in-out duration-300 absolute"
+                                    x-transition:leave-start="opacity-100 scale-100"
+                                    x-transition:leave-end="opacity-0 scale-95"
+                                    class="flex justify-center items-center w-full"
+                            >
+                                <img class="w-1/2 h-auto rounded " :src="item.img" :alt="item.desc">
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-xs sm:max-w-sm md:max-w-3xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                    <template x-for="(item, index) in items" :key="index">
+                        <button class="p-2 rounded focus:outline-none focus-visible:ring focus-visible:ring-black group"
+                                @click="active = index">
+                            <span class="text-center flex flex-col items-center"
+                                  :class="active === index ? '' : 'opacity-50 group-hover:opacity-100 group-focus:opacity-100 transition-opacity'">
+                                <span class="block text-sm font-medium text-slate-900 mb-2" x-text="item.desc"></span>
+                                <span class="block relative min-w-6 w-20 bg-slate-200 h-1 rounded-full" role="progressbar"
+                                      :aria-valuenow="active === index ? progress : 0" aria-valuemin="0" aria-valuemax="100">
+                                    <span class="absolute inset-0 bg-black rounded-[inherit]"
+                                          :style="`${active === index ? `width: ${progress}%` : 'width: 0%'}`"></span>
+                                </span>
+                            </span>
+                        </button>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <!-- Bloco 2: Detalhes do Veículo -->
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-4">Detalhes do Veículo</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <p><strong>Ano:</strong> {{ car.ano }}</p>
+                    <p><strong>Combustível:</strong> {{ car.combustivel }}</p>
+                    <p><strong>Marca:</strong> {{ car.marca }}</p>
+                </div>
+            </div>
+        </div>
+        <!-- Bloco 3: Valor do Veículo -->
+        <div class="flex-col">
+            <h2 class="text-xl font-semibold mb-4">Valor do Veículo</h2>
+            <div class="bg-gray-100 p-4 rounded mb-4">
+                <p class="text-2xl font-bold text-green-600 justify-center">R$ {{ car.valorBase}}</p>
+            </div>
+        </div>
+        <div class="">
+            <button class="w-1/4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 justify-center ">
+                Finalizar Compra
+            </button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('slider', () => ({
+                duration: 7000,
+                active: 0,
+                progress: 0,
+                firstFrameTime: 0,
+                items: [
+                    {
+                        img: "{{ car.image.url }}",
+                        desc: 'Foto 1',
+                    },
+                    {
+                        img: "{{ car.image.url }}",
+                        desc: 'Foto 2',
+                    },
+                    {
+                        img: "{{ car.image.url }}",
+                        desc: 'Foto 3',
+                    },
+                ],
+                init() {
+                    this.startAnimation();
+                    this.$watch('active', callback => {
+                        cancelAnimationFrame(this.frame);
+                        this.startAnimation();
+                    });
+                },
+                startAnimation() {
+                    this.progress = 0;
+                    this.$nextTick(() => {
+                        this.heightFix();
+                        this.firstFrameTime = performance.now();
+                        this.frame = requestAnimationFrame(this.animate.bind(this));
+                    });
+                },
+                animate(now) {
+                    let timeFraction = (now - this.firstFrameTime) / this.duration;
+                    if (timeFraction <= 1) {
+                        this.progress = timeFraction * 100;
+                        this.frame = requestAnimationFrame(this.animate.bind(this));
+                    } else {
+                        timeFraction = 1;
+                        this.active = (this.active + 1) % this.items.length;
+                    }
+                },
+                heightFix() {
+                    this.$nextTick(() => {
+                        this.$refs.items.parentElement.style.height = this.$refs.items.children[this.active + 1].clientHeight + 'px';
+                    });
+                }
+            }));
+        });
+    </script>
+    </body>
+
+{% endblock %}

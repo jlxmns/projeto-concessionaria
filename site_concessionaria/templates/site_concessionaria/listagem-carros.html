@@ -1,0 +1,30 @@
+{% extends 'unfold/layouts/skeleton.html' %}
+
+{% load i18n admin_urls static admin_modify my_templatetags %}
+
+{% block extrahead %}{{ block.super }}
+    <script src="{% url 'admin:jsi18n' %}"></script>
+    {{ media }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block base %}
+    {% include 'site_concessionaria/componentes/header.html' %}
+
+    <main class="space-y-20">
+        <div class="mt-20 flex flex-col items-center">
+            <h3 class="text-4xl font-bold">Elite Motors</h3>
+            <span>Encontre seu carro perfeito. Você pode filtrar por marca, preço, entre outros.</span>
+        </div>
+
+        <div class="flex flex-row gap-20 bg-gray-50 p-6">
+            {% include 'site_concessionaria/componentes/filtro-lateral.html' %}
+
+            {% include 'site_concessionaria/componentes/carros-filtrados.html' %}
+        </div>
+    </main>
+    {% include 'site_concessionaria/componentes/footer.html' %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+{% endblock %}

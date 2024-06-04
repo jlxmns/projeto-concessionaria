@@ -72,3 +72,4 @@ class CarroRecursoAdmin(admin.ModelAdmin):
     search_fields = ['carro' + 'simulacao', 'recurso']
     list_filter = ['carro', 'recurso']
 
+

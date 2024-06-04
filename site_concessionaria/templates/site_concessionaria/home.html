@@ -1,0 +1,57 @@
+{% extends 'unfold/layouts/skeleton.html' %}
+
+{% load i18n admin_urls static admin_modify my_templatetags %}
+
+{% block extrahead %}{{ block.super }}
+    <script src="{% url 'admin:jsi18n' %}"></script>
+    {{ media }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block base %}
+    {% include 'site_concessionaria/componentes/header.html' %}
+
+    <main class="space-y-20">
+        {% include 'site_concessionaria/componentes/carousel.html' %}
+
+        <div class="flex flex-col items-center gap-20">
+            <h3 class="text-4xl font-bold text-gray-800 dark:text-gray-50 ">Explore nossos veículos</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-20">
+                {% for letter in 'abc' %}
+                    {% include 'site_concessionaria/componentes/card-info-lateral.html' %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="flex flex-row justify-center items-center gap-10">
+            <button class="flex items-center justify-center p-4 bg-blue-950 rounded-full dark:bg-gray-50 dark:text-gray-900">
+                <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <span class="text-sm font-light">1 de 5</span>
+            <button class="flex items-center justify-center p-4 bg-blue-950 rounded-full dark:bg-gray-50 dark:text-gray-900">
+                <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-3 divide-x-2 divide-gray-800 justify-center text-gray-800 text-2xl bg-gray-50 w-2/3 mx-auto px-6 py-4">
+            <a href="#" class="flex flex-col items-center gap-4 hover:text-blue-900">
+                <span class="material-symbols-outlined" style="font-size: 36px;">build</span>
+                <span>Reparos</span>
+            </a>
+            <a href="#" class="flex flex-col items-center gap-4 hover:text-blue-900">
+                <span class="material-symbols-outlined" style="font-size: 36px;">attach_money</span>
+                <span>Promoções</span>
+            </a>
+            <a href="#" class="flex flex-col items-center gap-4 hover:text-blue-900">
+                <span class="material-symbols-outlined" style="font-size: 36px;">storefront</span>
+                <span>Lojas</span>
+            </a>
+        </div>
+
+        <div class="relative bg-gray-600" style="height: 800px">
+            <img class="h-full w-full object-cover object-center" src="{% static 'images/homem-reparos.jpeg' %}" alt="Mecânico sorrindo">
+            <button class="absolute bottom-20 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-gray-950 rounded-full text-white font-bold hover:text-blue-400">Agende o test-drive</button>
+        </div>
+
+    </main>
+    {% include 'site_concessionaria/componentes/footer.html' %}
+{% endblock %}

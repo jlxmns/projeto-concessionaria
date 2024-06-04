@@ -21,6 +21,7 @@ class Endereco(models.Model):
     def __str__(self):
         return f"{self.rua}, {self.numero}, {self.complemento}, {self.Bairro}, {self.cidade}, {self.estado}, {self.cep}"
 
+
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     endereco = models.ForeignKey(Endereco, verbose_name="endereco_id", on_delete=models.CASCADE, null=True)
@@ -33,12 +34,17 @@ class Carro(models.Model):
     modelo = models.CharField(verbose_name="Modelo", max_length=50)
     ano = models.SmallIntegerField(verbose_name="Ano")
     combustivel = models.CharField(verbose_name="Combustível", max_length=50)
-    # carroceria = models.CharField(verbose_name"Carroceria"max_length=50)
     marca = models.CharField(verbose_name="Marca", max_length=50)
     valorBase = models.FloatField(verbose_name="Valor Base")
     created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True),
     updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True),
     ativo = models.BooleanField(verbose_name="Ativo/Inativo", default=True)
+    quilometragem = models.IntegerField(verbose_name="Quilometragem")
+    final_placa = models.CharField(verbose_name="Final da placa")
+    ipva_pago = models.BooleanField(verbose_name="IPVa pago")
+    transmissao = models.CharField(verbose_name="Transmissao")
+    cor = models.CharField(verbose_name="Cor")
+    disponivel = models.BooleanField(verbose_name="Disponivel")
 
     def __str__(self):
         return self.modelo

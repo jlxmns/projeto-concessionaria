@@ -1,9 +1,12 @@
 module.exports = {
-  content: ["./src/**/*.{html,py,js}"],
+  content: ["./**/*.{html,py,js}"],
   media: false,
   darkMode: "class",
   theme: {
     extend: {
+      screens: {
+        '3xl': '1899px'
+      },
       colors: {
         primary: {
           50: "rgb(var(--color-primary-50) / <alpha-value>)",
@@ -28,6 +31,7 @@ module.exports = {
       },
       height: {
         9.5: "2.375rem",
+        1000: "1000px",
       },
       minWidth: {
         sidebar: "18rem",
