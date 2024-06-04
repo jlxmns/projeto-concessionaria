@@ -31,17 +31,17 @@ class Cliente(models.Model):
 
 class Carro(models.Model):
 
-    modelo = models.CharField(verbose_name="Modelo", max_length=50)
-    ano = models.SmallIntegerField(verbose_name="Ano")
-    combustivel = models.CharField(verbose_name="Combustível", max_length=50)
-    marca = models.CharField(verbose_name="Marca", max_length=50)
-    valorBase = models.FloatField(verbose_name="Valor Base")
-    quilometragem = models.IntegerField(verbose_name="Quilometragem")
-    final_placa = models.CharField(verbose_name="Final da placa")
-    ipva_pago = models.BooleanField(verbose_name="IPVa pago")
-    transmissao = models.CharField(verbose_name="Transmissao")
-    cor = models.CharField(verbose_name="Cor")
-    disponivel = models.BooleanField(verbose_name="Disponivel")
+    modelo = models.CharField(verbose_name="Modelo", max_length=50, blank=True)
+    ano = models.SmallIntegerField(verbose_name="Ano", blank=True)
+    combustivel = models.CharField(verbose_name="Combustível", max_length=50, default="")
+    marca = models.CharField(verbose_name="Marca", max_length=50, default="")
+    valorBase = models.FloatField(verbose_name="Valor Base", blank=True)
+    quilometragem = models.IntegerField(verbose_name="Quilometragem", default=0)
+    final_placa = models.CharField(verbose_name="Final da placa", blank=True)
+    ipva_pago = models.BooleanField(verbose_name="IPVa pago", default=False)
+    transmissao = models.CharField(verbose_name="Transmissao", blank=True)
+    cor = models.CharField(verbose_name="Cor", default="")
+    disponivel = models.BooleanField(verbose_name="Disponivel", default=True)
     created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True),
     updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True),
     ativo = models.BooleanField(verbose_name="Ativo/Inativo", default=True)
