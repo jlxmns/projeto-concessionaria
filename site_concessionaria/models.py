@@ -36,15 +36,15 @@ class Carro(models.Model):
     combustivel = models.CharField(verbose_name="Combustível", max_length=50)
     marca = models.CharField(verbose_name="Marca", max_length=50)
     valorBase = models.FloatField(verbose_name="Valor Base")
+    created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True),
+    updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True),
+    ativo = models.BooleanField(verbose_name="Ativo/Inativo", default=True)
     quilometragem = models.IntegerField(verbose_name="Quilometragem")
     final_placa = models.CharField(verbose_name="Final da placa")
     ipva_pago = models.BooleanField(verbose_name="IPVa pago")
     transmissao = models.CharField(verbose_name="Transmissao")
     cor = models.CharField(verbose_name="Cor")
     disponivel = models.BooleanField(verbose_name="Disponivel")
-    created_at = models.DateTimeField(verbose_name="Data de criacao", auto_now_add=True),
-    updated_at = models.DateTimeField(verbose_name="Data de atualizacao", auto_now=True),
-    ativo = models.BooleanField(verbose_name="Ativo/Inativo", default=True)
 
     def __str__(self):
         return self.modelo
