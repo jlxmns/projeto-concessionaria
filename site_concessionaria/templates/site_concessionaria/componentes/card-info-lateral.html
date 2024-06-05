@@ -7,8 +7,9 @@
         <span class="text-xl font-bold mr-2">{{ carro.marca }} {{ carro.modelo }} <span class="text-xs font-light">{{ carro.transmissao }}</span></span>
         <span>{{ carro.quilometragem }} kms / {{ carro.transmissao }}</span>
         <span class="text-xl font-bold">R$ {{ carro.valorBase|mascara_preco_carro }}</span>
-        <button class="p-2 rounded-full bg-gray-50 text-gray-900 hover:bg-blue-900 hover:text-white">
-            <a href="{% url 'site_concessionaria:search' car_id=carro.id %}">Ver Detalhes</a>
+        {% url 'site_concessionaria:search' car_id=carro.id as link %}
+        <button @click="window.location.href='{{ link }}'" class="p-2 cursor-pointer rounded-full bg-gray-50 text-gray-900 hover:bg-blue-900 hover:text-white">
+            <span>Ver Detalhes</span>
         </button>
     </div>
 </div>

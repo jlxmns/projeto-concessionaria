@@ -1,4 +1,2 @@
-# from comum.fields import CustomModelForm
-#
-# class AgendamentoForm(CustomModelForm):
-#
+from comum.fields import CustomModelForm
+from .models import Agendamentos
