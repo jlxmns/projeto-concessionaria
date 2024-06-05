@@ -1,6 +1,6 @@
 {% extends 'unfold/layouts/skeleton.html' %}
 
-{% load i18n admin_urls static admin_modify my_templatetags %}
+{% load i18n admin_urls static admin_modify my_templatetags partials %}
 
 {% block extrahead %}{{ block.super }}
     <script src="{% url 'admin:jsi18n' %}"></script>
@@ -11,7 +11,7 @@
 {% block base %}
     {% include 'site_concessionaria/componentes/header.html' %}
 
-    <form hx-post="{% url 'site_concessionaria:criar-agendamento' %}" hx-swap="none" class="my-20 flex flex-col items-center text-gray-900">
+    <form hx-post="{% url 'site_concessionaria:criar-agendamento' %}" hx-swap="outerHTML" class="my-20 flex flex-col items-center text-gray-900">
     {% csrf_token %}
     <div class="flex flex-col w-1/4 gap-10">
         <div class="flex flex-col gap-2">

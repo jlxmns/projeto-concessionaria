@@ -69,3 +69,16 @@ class LojaAdmin(ModelAdmin):
 class AgendamentosAdmin(ModelAdmin):
     list_display = ['nome', 'servico', 'contato', 'dataHoraAgendamento']
     search_fields = ['nome', 'servico', 'contato', 'dataHoraAgendamento']
+
+
+@admin.register(Simulacao)
+class SimulacaoAdmin(admin.ModelAdmin):
+    list_display = ['cliente', 'nome', 'precoFinal']
+    search_fields = ['cliente__user__first_name' + 'cliente__user__last_name', 'nome']
+    list_filter = ['cliente']
+
+@admin.register(CarroRecurso)
+class CarroRecursoAdmin(admin.ModelAdmin):
+    list_display = ['simulacao', 'carro', 'recurso']
+    search_fields = ['carro' + 'simulacao', 'recurso']
+    list_filter = ['carro', 'recurso']

@@ -35,7 +35,6 @@ class Cliente(models.Model):
 
 
 class Carro(models.Model):
-
     modelo = models.CharField(verbose_name="Modelo", max_length=50)
     ano = models.SmallIntegerField(verbose_name="Ano")
     combustivel = models.CharField(verbose_name="Combustível", max_length=50)
@@ -94,7 +93,7 @@ class Loja (models.Model):
 class Agendamentos(models.Model):
     nome = models.CharField(verbose_name="Nome Completo", max_length=100, default="")
     servico = models.CharField(verbose_name="Serviço", choices=choices.TiposAgendamento.choices, default=choices.TiposAgendamento.TESTDRIVE)
-    dataHoraAgendamento = models.DateTimeField(verbose_name="Data Hora Agendamento", default=timezone.now())
+    dataHoraAgendamento = models.DateTimeField(verbose_name="Data Hora Agendamento", default=timezone.now)
     contato = models.CharField(verbose_name="Contato", max_length=100, default="")
     info_adicional = models.TextField(max_length=1000, default="")
 
@@ -110,8 +109,10 @@ class Simulacao(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     nome = models.CharField(verbose_name="Nome da Simulação", max_length=100)
     precoFinal = models.FloatField(verbose_name="Preco Final")
-    created_at = models.DateTimeField(verbose_name="Nome da Simulação", auto_now=True)
-    updated_at = models.DateTimeField(verbose_name="Nome da Simulação", auto_now_add=True)
+    created_at = models.DateTimeField(verbose_name="Data de Criacao", auto_now=True)
+    updated_at = models.DateTimeField(verbose_name="Data de Atualização", auto_now_add=True)
+    def __str__(self):
+        return  f"{self.nome} {self.precoFinal}"
 
 
 class CarroRecurso(models.Model):
