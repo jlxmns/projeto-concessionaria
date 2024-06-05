@@ -197,6 +197,7 @@ def filtrar_carros(request):
         if cor_selecionados:
             carros = carros.filter(cor__in=cor_selecionados)
 
+        carros = carros[:20]
 
         context = dict()
         context['carros'] = carros

@@ -1,7 +1,6 @@
 <div id="listagem-carros" class="flex flex-col w-full p-4 gap-8">
     <div class="flex flex-row justify-between">
-        <span>{{ carros_count }} Carros Encontrados</span>
-        <span>ordenação</span>
+        <span>{{ carros_count }} Carros Encontrados (Max. 20)</span>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 3xl:grid-cols-4 gap-6">
         {% for carro in carros %}
