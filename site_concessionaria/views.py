@@ -1,7 +1,11 @@
+from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.templatetags.static import static
 from comum.views import TemplateBaseView
 
 import os
+
+from site_concessionaria.models import Carro
 
 
 # Create your views here.
@@ -19,7 +23,7 @@ class HomeView(TemplateBaseView):
 
         context['imagens'] = [img1, img2, img3, img4]
         context['teste'] = "teste"
-        # context['cards'] = queryset que contém os 3 carros mais recentes talvez?
+        context['carros'] = Paginator(Carro.objects.all()[:9], 3)
 
         return context
 
@@ -30,15 +34,14 @@ class ListagemCarrosView(TemplateBaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        carros = Carro.objects.all()[:20]
+        carros_count = carros.count()
+
         filtros = [
             Filter(
-                name="Veículos",
-                options=[
-                    Option("Carros", "checkbox"),
-                    Option("Elétricos", "checkbox"),
-                    Option("SUV", "checkbox"),
-                    Option("Minivan", "checkbox"),
-                ]),
+                name="Marca",
+                options=[Option(marca, "checkbox") for marca in Carro.objects.all().values_list('marca', flat=True).distinct()]
+            ),
             Filter(
                 name="Valor",
                 options=[
@@ -47,16 +50,12 @@ class ListagemCarrosView(TemplateBaseView):
             ),
             Filter(
                 name="Ano",
-                options=[
-                    Option("2022", type="checkbox"),
-                    Option("2023", type="checkbox"),
-                    Option("2024", type="checkbox"),
-                    Option("2025", type="checkbox"),
-                ]
+                options=[Option(ano, "checkbox") for ano in Carro.objects.all().values_list('ano', flat=True).order_by('-ano').distinct()]
             )
         ]
 
-        # context['carros'] = queryset com todos os carros
+        context['carros'] = carros
+        context['carros_count'] = carros_count
         context['filtros'] = filtros
 
         return context
@@ -114,9 +113,6 @@ class MapView(TemplateBaseView):
 
         return context
 
-from django.shortcuts import render, get_object_or_404
-from .models import Carro
-
 class CarDetail(TemplateBaseView):
     template_name = "site_concessionaria/car_detail.html"
 
@@ -124,5 +120,31 @@ class CarDetail(TemplateBaseView):
        context = super().get_context_data(**kwargs)
        carro = kwargs.get("car_id")
        carro = Carro.objects.filter(id=carro).first()
-       context["car"]=carro
+       context["car"] = carro
        return context
+
+
+def filtrar_carros(request):
+    if request.htmx:
+        carros = Carro.objects.all()
+
+        marcas_selecionadas = []
+
+        for id, value in request.POST.items():
+            if 'Marca-' in id:
+                split = id.split('-')
+                marca = split[1]
+                marcas_selecionadas.append(marca)
+
+        carros = carros.filter(marca__in=marcas_selecionadas)
+
+        return HttpResponse(status=400)
+    return HttpResponse(status=200)
+
+class AgendamentoView(TemplateBaseView):
+    template_name = 'site_concessionaria/agendamento.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context

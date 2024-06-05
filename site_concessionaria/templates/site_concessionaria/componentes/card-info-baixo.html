@@ -1,13 +1,14 @@
-{% load static %}
+{% load static my_templatetags %}
 
-<div class="flex flex-col bg-red-800 gap-0 rounded text-white w-fit">
-    <img class="max-w-sm min-w-10 rounded-l object-cover" src="{% static 'images/yaris3.png' %}" alt="">
+<div class="flex flex-col bg-gray-800 gap-0 rounded text-white w-fit">
+    <img class="max-w-sm min-w-10 h-2/5 object-cover" src="{% if carro.anexo_set.first %}{{ carro.anexo_set.first.arquivo.url }}{% else %}{% static 'images/placeholder.png' %}{% endif %}" alt="">
     <div class="flex flex-col px-8 py-6 gap-6 w-fit">
-        <span>Ano / Tipo Gasolina</span>
-        <span>Nome</span>
-        <span>Descrição Simples</span>
-        <span>Preço</span>
-        <span>Preço Estimado</span>
-        <button>Ver Detalhes</button>
+        <span class="text-xs font-light">{{ carro.ano }} / {{ carro.combustivel }}</span>
+        <span class="text-xl font-bold mr-2">{{ carro.marca }} {{ carro.modelo }} <span class="text-xs font-light">{{ carro.transmissao }}</span></span>
+        <span>{{ carro.quilometragem }} kms / {{ carro.transmissao }}</span>
+        <span class="text-xl font-bold">R$ {{ carro.valorBase|mascara_preco_carro }}</span>
+        <button class="p-2 rounded-full bg-gray-50 text-gray-900 hover:bg-blue-900 hover:text-white">
+            <a href="{% url 'site_concessionaria:search' car_id=carro.id %}">Ver Detalhes</a>
+        </button>
     </div>
 </div>

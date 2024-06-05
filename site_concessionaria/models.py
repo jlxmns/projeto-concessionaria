@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from comum.utils import validate_file_size
 
+
 class Endereco(models.Model):
     rua = models.CharField(verbose_name="Rua", max_length=255)
     numero = models.CharField(verbose_name="Numero", max_length=255)
@@ -30,6 +31,7 @@ class Cliente(models.Model):
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
 
+
 class Carro(models.Model):
     modelo = models.CharField(verbose_name="Modelo", max_length=50)
     ano = models.SmallIntegerField(verbose_name="Ano")
@@ -47,7 +49,7 @@ class Carro(models.Model):
     disponivel = models.BooleanField(verbose_name="Disponivel")
 
     def __str__(self):
-        return self.modelo
+        return f"{self.modelo} - {self.marca} - {self.ano}"
 
 
 class Anexo(models.Model):
@@ -77,19 +79,28 @@ class Recurso(models.Model):
     def __str__(self):
         return f"{self.nome} - {self.preco}"
 
+
 class Loja (models.Model):
     nome = models.CharField(verbose_name="Nome Loja")
     telefone = models.CharField(verbose_name="Telefone")
     endereco = models.ForeignKey(Endereco, verbose_name="endereco_id", on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.nome} ({self.telefone})"
+
+
 class Agendamentos(models.Model):
     cliente = models.ForeignKey(Cliente, verbose_name="Cliente_id", on_delete=models.CASCADE)
     loja = models.ForeignKey(Loja, verbose_name="Loja_id", on_delete=models.CASCADE)
     carro = models.ForeignKey(Carro, verbose_name="Carro_id", on_delete=models.CASCADE)
     dataHoraAgendamento = models.DateTimeField(verbose_name="Data Hora Agendamento")
+
+    class Meta:
+        verbose_name = "Agendamentos"
+        verbose_name_plural = "Agendamentos"
+
     def __str__(self):
         return f"Agendamento na loja {self.loja} às {self.dataHoraAgendamento}"
+
 
 class Simulacao(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
@@ -99,6 +110,7 @@ class Simulacao(models.Model):
     updated_at = models.DateTimeField(verbose_name="Data de Atualização", auto_now_add=True)
     def __str__(self):
         return  f"{self.nome} {self.precoFinal}"
+
 
 class CarroRecurso(models.Model):
     simulacao = models.ForeignKey(Simulacao, on_delete=models.CASCADE)

@@ -1,10 +1,10 @@
-<div class="flex flex-col w-full p-4 gap-8">
+<div id="listagem-carros" class="flex flex-col w-full p-4 gap-8">
     <div class="flex flex-row justify-between">
-        <span>X Carros Encontrados</span>
+        <span>{{ carros_count }} Carros Encontrados</span>
         <span>ordenação</span>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 3xl:grid-cols-4 gap-6">
-        {% for letter in 'abcdefghijk' %}
+        {% for carro in carros %}
             {% include 'site_concessionaria/componentes/card-info-baixo.html' %}
         {% endfor %}
     </div>

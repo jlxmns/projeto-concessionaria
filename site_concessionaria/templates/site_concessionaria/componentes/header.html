@@ -1,4 +1,4 @@
-{% load static %}
+{% load static account %}
 
 <header class="text-gray-800 flex px-2 sm:px-6 py-3 gap-6 lg:gap-20 bg-gray-50 sticky top-0 z-50" x-data="{ openedMenu: 'none' }">
     <div class="mx-auto flex justify-between flex-row px-2 sm:px-6 py-3 gap-6 lg:gap-48 bg-gray-50 sticky top-0 z-50">
@@ -32,12 +32,12 @@
              @click.outside="openedMenu = 'none'">
             <div class="flex flex-row gap-6 sm:gap-16 font-semibold" x-show="window.innerWidth > 767">
                 <div class="relative">
-                    <a href="javascript:void(0)"
-                       @click="openedMenu = 'veiculos'"
+                    <a href="{% url 'site_concessionaria:listagem-carros' %}"
+{#                       @click="openedMenu = 'veiculos'"#}
                        class="flex flex-row items-center gap-2 px-3 py-2 border rounded-full border-opacity-0 border-gray-800 ease-in-out hover:border-opacity-100"
                        :class="openedMenu == 'veiculos' ? 'bg-gray-800 text-white' : ''">
                         Veículos
-                        <span class="material-symbols-outlined">keyboard_arrow_down</span>
+{#                        <span class="material-symbols-outlined">keyboard_arrow_down</span>#}
                     </a>
                     <div x-show="openedMenu == 'veiculos'" class="absolute flex flex-col items-center gap-6 p-4 bg-gray-50 top-16 -left-6 border-t border-gray-400">
                         <a href="#">SUV</a>
@@ -48,11 +48,11 @@
                 </div>
                 <div class="relative">
                     <a href="javascript:void(0)"
-                        @click="openedMenu = 'servicos'"
+{#                        @click="openedMenu = 'servicos'"#}
                         class="flex flex-row items-center gap-2 px-3 py-2 border rounded-full border-opacity-0 border-gray-800 ease-in-out hover:border-opacity-100"
                         :class="openedMenu == 'servicos' ? 'bg-gray-800 text-white' : ''">
                         Serviços
-                        <span class="material-symbols-outlined">keyboard_arrow_down</span>
+{#                        <span class="material-symbols-outlined">keyboard_arrow_down</span>#}
                     </a>
                     <div x-show="openedMenu == 'servicos'" class="absolute flex flex-col items-center gap-6 p-4 bg-gray-50 top-16 border-t border-gray-400">
                         <a href="#">Serviços Rápidos</a>
@@ -60,12 +60,12 @@
                     </div>
                 </div>
                 <div class="relative">
-                    <a href="javascript:void(0)"
-                      @click="openedMenu = 'lojas'"
+                    <a href="{% url 'site_concessionaria:map_view' %}"
+{#                      @click="openedMenu = 'lojas'"#}
                       class="flex flex-row items-center gap-2 px-3 py-2 border rounded-full border-opacity-0 border-gray-800 ease-in-out hover:border-opacity-100"
                       :class="openedMenu == 'lojas' ? 'bg-gray-800 text-white' : ''">
                         Lojas Próximas
-                        <span class="material-symbols-outlined">keyboard_arrow_down</span>
+{#                        <span class="material-symbols-outlined">keyboard_arrow_down</span>#}
                     </a>
                     <div x-show="openedMenu == 'lojas'" class="absolute flex flex-col items-center gap-6 p-4 bg-gray-50 top-16 border-t border-gray-400">
                         <a href="#">Todas as lojas</a>
@@ -75,13 +75,15 @@
             </div>
             {% if user.is_authenticated %}
             <div class="flex flex-row items-center gap-2">
-                <a href="">
+                Bem vindo {% user_display user %}
+                <a href="{% url 'account_logout' %}">
                     <span class="material-symbols-outlined" style="font-size: 36px;">account_circle</span>
                 </a>
             </div>
             {% else %}
                 <div class="flex flex-row items-center gap-2">
-                    <a href="">
+                    Login
+                    <a href="{% url 'account_login' %}">
                         <span class="material-symbols-outlined" style="font-size: 36px;">account_circle</span>
                     </a>
                 </div>

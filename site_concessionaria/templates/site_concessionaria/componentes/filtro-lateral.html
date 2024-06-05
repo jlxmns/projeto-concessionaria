@@ -1,6 +1,7 @@
 {% load partials %}
 
-<form action="" class="h-fit p-4 divide-y-2 *:py-4 first:*:pt-0 grid grid-cols-1 min-w-36" x-data="{ resetForm: () => $el.reset() }">
+<form hx-post="{% url 'site_concessionaria:filtrar_carros' %}" hx-swap="#listagem-carros" hx-swap="outerHTML" hx-trigger="change" class="h-fit p-4 divide-y-2 *:py-4 first:*:pt-0 grid grid-cols-1 min-w-36" x-data="{ resetForm: () => $el.reset() }">
+    {% csrf_token %}
     <h4 class="text-2xl font-bold ">Filtros</h4>
     {% for filtro in filtros %}
         {% partial 'opcoes-filtro' %}
@@ -17,8 +18,8 @@
         {% for option in filtro.options %}
             <div class="flex flex-row gap-2 items-center">
                 {% if option.type == "checkbox" %}
-                    <input class="inline-block rounded cursor-pointer" type="checkbox" id="{{ filtro.name }}-checkbox{{ forloop.counter }}" name="{{ filtro.name }}-checkbox{{ forloop.counter }}">
-                    <label class="inline-block cursor-pointer" for="{{ filtro.name }}-checkbox{{ forloop.counter }}">{{ option.display_name }}
+                    <input class="inline-block rounded cursor-pointer" type="checkbox" id="{{ filtro.name }}-{{ option.display_name }}" name="{{ filtro.name }}-{{ option.display_name }}">
+                    <label class="inline-block cursor-pointer" for="{{ filtro.name }}-{{ option.display_name }}">{{ option.display_name }}
                     </label>
                 {% elif option.type == "slider" %}
                     {% include 'site_concessionaria/componentes/price-slider.html' %}
