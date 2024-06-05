@@ -1,5 +1,14 @@
+from django.db.models import Min, Max
+from django.core.paginator import Paginator
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.template import Template
 from django.templatetags.static import static
+from django.utils.safestring import mark_safe
+
 from comum.views import TemplateBaseView
+from . import choices
+from .models import Agendamentos
 
 import os
 
@@ -21,7 +30,7 @@ class HomeView(TemplateBaseView):
 
         context['imagens'] = [img1, img2, img3, img4]
         context['teste'] = "teste"
-        # context['cards'] = queryset que contém os 3 carros mais recentes talvez?
+        context['carros'] = Paginator(Carro.objects.all()[:9], 3)
 
         return context
 
@@ -32,15 +41,20 @@ class ListagemCarrosView(TemplateBaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        carros = Carro.objects.all()[:20]
+        carros_count = carros.count()
+
+        valor_min_max = Carro.objects.aggregate(Min('valorBase'), Max('valorBase'))
+        valor_min = valor_min_max['valorBase__min']
+        valor_max = valor_min_max['valorBase__max']
+        context['valor_min'] = valor_min
+        context['valor_max'] = valor_max
+        context['valor_media'] = (valor_min + valor_max) / 2
         filtros = [
             Filter(
-                name="Veículos",
-                options=[
-                    Option("Carros", "checkbox"),
-                    Option("Elétricos", "checkbox"),
-                    Option("SUV", "checkbox"),
-                    Option("Minivan", "checkbox"),
-                ]),
+                name="Marca",
+                options=[Option(marca, "checkbox") for marca in Carro.objects.all().values_list('marca', flat=True).distinct()]
+            ),
             Filter(
                 name="Valor",
                 options=[
@@ -49,16 +63,25 @@ class ListagemCarrosView(TemplateBaseView):
             ),
             Filter(
                 name="Ano",
-                options=[
-                    Option("2022", type="checkbox"),
-                    Option("2023", type="checkbox"),
-                    Option("2024", type="checkbox"),
-                    Option("2025", type="checkbox"),
-                ]
-            )
+                options=[Option(ano, "checkbox") for ano in Carro.objects.all().values_list('ano', flat=True).order_by('-ano').distinct()]
+            ),
+            Filter(
+                name="Transmissão",
+                options=[Option(transmissao, "checkbox") for transmissao in
+                         Carro.objects.all().values_list('transmissao', flat=True).distinct()]
+            ),
+            Filter(
+                name="Combustível",
+                options=[Option(combustivel, "checkbox") for combustivel in Carro.objects.all().values_list('combustivel', flat=True).distinct()]
+            ),
+            Filter(
+                name="Cor",
+                options=[Option(cor, "checkbox") for cor in Carro.objects.all().values_list('cor', flat=True).distinct()]
+            ),
         ]
 
-        context['carros'] = Carro.objects.all()
+        context['carros'] = carros
+        context['carros_count'] = carros_count
         context['filtros'] = filtros
 
         return context
@@ -125,3 +148,92 @@ class CarDetail(TemplateBaseView):
        carro = Carro.objects.filter(id=carro).first()
        context["car"] = carro
        return context
+
+
+def filtrar_carros(request):
+    if request.htmx:
+        carros = Carro.objects.all()
+
+        marcas_selecionadas = []
+        anos_selecionados = []
+        transmissao_selecionados = []
+        combustivel_selecionados = []
+        cor_selecionados = []
+        for id, value in request.POST.items():
+
+            if 'Marca-' in id:
+                split = id.split('-')
+                marca = split[1]
+                marcas_selecionadas.append(marca)
+            elif 'Ano-' in id:
+                split = id.split('-')
+                ano = split[1]
+                anos_selecionados.append(ano)
+            elif 'Transmissão-' in id:
+                split = id.split('-')
+                transmissao = split[1]
+                transmissao_selecionados.append(transmissao)
+            elif 'Combustível-' in id:
+                split = id.split('-')
+                combustivel = split[1]
+                combustivel_selecionados.append(combustivel)
+            elif 'Cor-' in id:
+                split = id.split('-')
+                cor = split[1]
+                cor_selecionados.append(cor)
+
+        if marcas_selecionadas:
+            carros = carros.filter(marca__in=marcas_selecionadas)
+
+        if anos_selecionados:
+            carros = carros.filter(ano__in=anos_selecionados)
+
+        if transmissao_selecionados:
+            carros = carros.filter(transmissao__in=transmissao_selecionados)
+
+        if combustivel_selecionados:
+            carros = carros.filter(combustivel__in=combustivel_selecionados)
+
+        if cor_selecionados:
+            carros = carros.filter(cor__in=cor_selecionados)
+
+        carros = carros[:20]
+
+        context = dict()
+        context['carros'] = carros
+        context['carros_count'] = carros.count()
+
+        return render(request, 'site_concessionaria/componentes/carros-filtrados.html', context)
+    return HttpResponse(status=400)
+
+class AgendamentoView(TemplateBaseView):
+    template_name = 'site_concessionaria/agendamento.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['servicos'] = choices.TiposAgendamento
+
+        return context
+
+
+def criar_agendamento(request):
+    if request.htmx:
+        nome = request.POST.get('nome')
+        servico = request.POST.get('servico')
+        data = request.POST.get('data')
+        contato = request.POST.get('contato')
+        info = request.POST.get('info')
+
+        agendamento = Agendamentos(
+            nome=nome,
+            servico=servico,
+            dataHoraAgendamento=data,
+            contato=contato,
+            info_adicional=info
+        )
+
+        agendamento.save()
+
+        return render(request, 'site_concessionaria/componentes/success-msg.html', context={})
+    return HttpResponse(status=200)
