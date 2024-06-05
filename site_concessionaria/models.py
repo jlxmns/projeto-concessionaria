@@ -1,8 +1,10 @@
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 from comum.utils import validate_file_size
+from . import choices
 
 
 class Endereco(models.Model):
@@ -89,17 +91,18 @@ class Loja (models.Model):
 
 
 class Agendamentos(models.Model):
-    cliente = models.ForeignKey(Cliente, verbose_name="Cliente_id", on_delete=models.CASCADE)
-    loja = models.ForeignKey(Loja, verbose_name="Loja_id", on_delete=models.CASCADE)
-    carro = models.ForeignKey(Carro, verbose_name="Carro_id", on_delete=models.CASCADE)
-    dataHoraAgendamento = models.DateTimeField(verbose_name="Data Hora Agendamento")
+    nome = models.CharField(verbose_name="Nome Completo", max_length=100, default="")
+    servico = models.CharField(verbose_name="Serviço", choices=choices.TiposAgendamento.choices, default=choices.TiposAgendamento.TESTDRIVE)
+    dataHoraAgendamento = models.DateTimeField(verbose_name="Data Hora Agendamento", default=timezone.now)
+    contato = models.CharField(verbose_name="Contato", max_length=100, default="")
+    info_adicional = models.TextField(max_length=1000, default="")
 
     class Meta:
         verbose_name = "Agendamentos"
         verbose_name_plural = "Agendamentos"
 
     def __str__(self):
-        return f"Agendamento na loja {self.loja} às {self.dataHoraAgendamento}"
+        return f"Agendamento de {self.servico} às {self.dataHoraAgendamento}"
 
 
 class Simulacao(models.Model):

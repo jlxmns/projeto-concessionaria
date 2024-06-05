@@ -67,9 +67,9 @@ class LojaAdmin(ModelAdmin):
 
 @admin.register(Agendamentos)
 class AgendamentosAdmin(ModelAdmin):
-    list_display = ['cliente', 'loja', 'dataHoraAgendamento']
-    search_fields = ['cliente__user__username', 'loja__nome']
-    list_filter = ['loja']
+    list_display = ['nome', 'servico', 'contato', 'dataHoraAgendamento']
+    search_fields = ['nome', 'servico', 'contato', 'dataHoraAgendamento']
+
 
 @admin.register(Simulacao)
 class SimulacaoAdmin(admin.ModelAdmin):
@@ -82,5 +82,3 @@ class CarroRecursoAdmin(admin.ModelAdmin):
     list_display = ['simulacao', 'carro', 'recurso']
     search_fields = ['carro' + 'simulacao', 'recurso']
     list_filter = ['carro', 'recurso']
-
-

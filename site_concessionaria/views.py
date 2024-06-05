@@ -2,8 +2,13 @@ from django.db.models import Min, Max
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.template import Template
 from django.templatetags.static import static
+from django.utils.safestring import mark_safe
+
 from comum.views import TemplateBaseView
+from . import choices
+from .models import Agendamentos
 
 import os
 
@@ -206,4 +211,28 @@ class AgendamentoView(TemplateBaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        context['servicos'] = choices.TiposAgendamento
+
         return context
+
+
+def criar_agendamento(request):
+    if request.htmx:
+        nome = request.POST.get('nome')
+        servico = request.POST.get('servico')
+        data = request.POST.get('data')
+        contato = request.POST.get('contato')
+        info = request.POST.get('info')
+
+        agendamento = Agendamentos(
+            nome=nome,
+            servico=servico,
+            dataHoraAgendamento=data,
+            contato=contato,
+            info_adicional=info
+        )
+
+        agendamento.save()
+
+        return render(request, 'site_concessionaria/componentes/success-msg.html', context={})
+    return HttpResponse(status=200)
