@@ -10,4 +10,5 @@ urlpatterns = [
     path('map', views.MapView.as_view(), name='map_view'),
     path('filtrar-carros', views.filtrar_carros, name='filtrar_carros'),
     path('agendar', views.AgendamentoView.as_view(), name='agendar'),
+    path('criar_agendamento', views.criar_agendamento, name='criar-agendamento'),
 ]

@@ -1,8 +1,9 @@
+{% load my_templatetags %}
 
-<div class="relative mb-6" x-data="{ valor: '750' }">
-    <label for="labels-range-input" class="sr-only">Labels range</label>
-    <input id="labels-range-input" type="range" value="750" min="100" max="1500" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" x-model="valor">
-    <span class="text-xs text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">$100</span>
+<div class="relative mb-6" x-data="{ valor: '{{ valor_media|format_money }}' }">
     <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 absolute start-1/2 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6" x-text="valor"></span>
-    <span class="text-xs text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6">$1500</span>
+    <label for="labels-range-input" class="sr-only">Labels range</label>
+    <input id="labels-range-input" type="range" value="{{ valor_media }}" min="{{ valor_min }}" max="{{ valor_max }}" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" x-model="valor">
+    <span class="text-xs text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">{{ valor_min|format_money }}</span>
+    <span class="text-xs text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6">{{ valor_max|format_money }}</span>
 </div>
