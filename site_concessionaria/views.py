@@ -59,7 +59,20 @@ class ListagemCarrosView(TemplateBaseView):
             Filter(
                 name="Ano",
                 options=[Option(ano, "checkbox") for ano in Carro.objects.all().values_list('ano', flat=True).order_by('-ano').distinct()]
-            )
+            ),
+            Filter(
+                name="Transmissão",
+                options=[Option(transmissao, "checkbox") for transmissao in
+                         Carro.objects.all().values_list('transmissao', flat=True).distinct()]
+            ),
+            Filter(
+                name="Combustível",
+                options=[Option(combustivel, "checkbox") for combustivel in Carro.objects.all().values_list('combustivel', flat=True).distinct()]
+            ),
+            Filter(
+                name="Cor",
+                options=[Option(cor, "checkbox") for cor in Carro.objects.all().values_list('cor', flat=True).distinct()]
+            ),
         ]
 
         context['carros'] = carros
@@ -138,6 +151,9 @@ def filtrar_carros(request):
 
         marcas_selecionadas = []
         anos_selecionados = []
+        transmissao_selecionados = []
+        combustivel_selecionados = []
+        cor_selecionados = []
         for id, value in request.POST.items():
 
             if 'Marca-' in id:
@@ -148,11 +164,34 @@ def filtrar_carros(request):
                 split = id.split('-')
                 ano = split[1]
                 anos_selecionados.append(ano)
+            elif 'Transmissão-' in id:
+                split = id.split('-')
+                transmissao = split[1]
+                transmissao_selecionados.append(transmissao)
+            elif 'Combustível-' in id:
+                split = id.split('-')
+                combustivel = split[1]
+                combustivel_selecionados.append(combustivel)
+            elif 'Cor-' in id:
+                split = id.split('-')
+                cor = split[1]
+                cor_selecionados.append(cor)
+
         if marcas_selecionadas:
             carros = carros.filter(marca__in=marcas_selecionadas)
 
         if anos_selecionados:
             carros = carros.filter(ano__in=anos_selecionados)
+
+        if transmissao_selecionados:
+            carros = carros.filter(transmissao__in=transmissao_selecionados)
+
+        if combustivel_selecionados:
+            carros = carros.filter(combustivel__in=combustivel_selecionados)
+
+        if cor_selecionados:
+            carros = carros.filter(cor__in=cor_selecionados)
+
 
         context = dict()
         context['carros'] = carros
