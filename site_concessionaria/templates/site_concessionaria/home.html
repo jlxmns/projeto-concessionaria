@@ -11,24 +11,26 @@
 {% block base %}
     {% include 'site_concessionaria/componentes/header.html' %}
 
-    <main class="space-y-20">
+    <main class="space-y-20" x-data="{ page: 1, page_max: {{ carros.num_pages }} }">
         {% include 'site_concessionaria/componentes/carousel.html' %}
 
         <div class="flex flex-col items-center gap-20">
-            <h3 class="text-4xl font-bold text-gray-800 dark:text-gray-50 ">Explore nossos veículos</h3>
+            <h3 class="text-4xl font-bold text-gray-800 dark:text-gray-50">Explore nossos veículos</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-20">
-                {% for letter in 'abc' %}
-                    {% include 'site_concessionaria/componentes/card-info-lateral.html' %}
+                {% for page in carros %}
+                        {% for carro in page %}
+                            {% include 'site_concessionaria/componentes/card-info-lateral.html' %}
+                        {% endfor %}
                 {% endfor %}
             </div>
         </div>
         <div class="flex flex-row justify-center items-center gap-10">
-            <button class="flex items-center justify-center p-4 bg-blue-950 rounded-full dark:bg-gray-50 dark:text-gray-900">
-                <span class="material-symbols-outlined">chevron_left</span>
+            <button class="flex items-center justify-center p-4 text-white bg-blue-950 rounded-full dark:bg-gray-50 dark:text-gray-900">
+                <span @click="page == 0 ? page = page_max : page = page - 1" class="material-symbols-outlined">chevron_left</span>
             </button>
-            <span class="text-sm font-light">1 de 5</span>
-            <button class="flex items-center justify-center p-4 bg-blue-950 rounded-full dark:bg-gray-50 dark:text-gray-900">
-                <span class="material-symbols-outlined">chevron_right</span>
+            <span class="text-sm font-light"><span x-text="page"></span> de {{ carros.num_pages }}</span>
+            <button class="flex items-center justify-center p-4 text-white bg-blue-950 rounded-full dark:bg-gray-50 dark:text-gray-900">
+                <span @click="page == page_max ? page = 1 : page = page + 1" class="material-symbols-outlined">chevron_right</span>
             </button>
         </div>
 

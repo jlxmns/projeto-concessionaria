@@ -1,4 +1,5 @@
 from django.db.models import Min, Max
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.templatetags.static import static
@@ -24,7 +25,7 @@ class HomeView(TemplateBaseView):
 
         context['imagens'] = [img1, img2, img3, img4]
         context['teste'] = "teste"
-        # context['cards'] = queryset que contém os 3 carros mais recentes talvez?
+        context['carros'] = Paginator(Carro.objects.all()[:9], 3)
 
         return context
 
@@ -34,6 +35,9 @@ class ListagemCarrosView(TemplateBaseView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        carros = Carro.objects.all()[:20]
+        carros_count = carros.count()
 
         valor_min_max = Carro.objects.aggregate(Min('valorBase'), Max('valorBase'))
         valor_min = valor_min_max['valorBase__min']
@@ -58,7 +62,8 @@ class ListagemCarrosView(TemplateBaseView):
             )
         ]
 
-        context['carros'] = Carro.objects.all()[:20]
+        context['carros'] = carros
+        context['carros_count'] = carros_count
         context['filtros'] = filtros
 
         return context
@@ -155,3 +160,11 @@ def filtrar_carros(request):
 
         return render(request, 'site_concessionaria/componentes/carros-filtrados.html', context)
     return HttpResponse(status=400)
+
+class AgendamentoView(TemplateBaseView):
+    template_name = 'site_concessionaria/agendamento.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
